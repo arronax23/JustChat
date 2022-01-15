@@ -9,7 +9,7 @@ namespace JustChat.Models
     {
         public int RoomId { get; set; }
         public string Name { get; set; }
-        public ICollection<User> Users { get; set
+        public ICollection<User> Users { get; set; }
         public ICollection<Message> Messages { get; set; }
     }
 }
