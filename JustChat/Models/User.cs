@@ -8,5 +8,6 @@ namespace JustChat.Models
 {
     public class User : IdentityUser
     {
+        public ICollection<Room> Rooms { get; set; }
     }
 }
