@@ -1,0 +1,20 @@
+﻿@page
+@model JustChat.Pages.Authentication.RegisterModel
+@{
+}
+
+<form method="post">
+    <div>
+        <label asp-for="UserVM.Username"></label>
+        <input asp-for="UserVM.Username" />
+        <span asp-validation-for="UserVM.Username"></span>
+    </div>
+    <div>
+        <label asp-for="UserVM.Password"></label>
+        <input type="password" asp-for="UserVM.Password" />
+        <span asp-validation-for="UserVM.Password"></span>
+    </div>
+    <div>
+        <input type="submit" value="Register" class="waves-effect waves-light btn" />
+    </div>
+</form>
