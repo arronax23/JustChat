@@ -8,6 +8,11 @@ namespace JustChat.Hubs
 {
     public class ChatHub : Hub
     {
+        public ChatHub()
+        {
+
+        }
+
         public Task JoinRoom(string roomName)
         {
             return Groups.AddToGroupAsync(Context.ConnectionId, roomName);
@@ -18,10 +23,9 @@ namespace JustChat.Hubs
             return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
         }
 
-
-        public Task SendMessage(string roomName, string author, string message, string timeStamp)
+        public async Task SendMessage(string roomName, string author, string message, string timeStamp)
         {
-            return Clients
+            await Clients
                 .Group(roomName)
                 .SendAsync("ReceiveMessage", author, message, timeStamp);
         }

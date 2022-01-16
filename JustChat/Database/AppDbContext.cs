@@ -13,5 +13,9 @@ namespace JustChat.Database
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<RoomUser> RoomUsers { get; set; }
     }
 }

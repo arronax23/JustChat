@@ -1,0 +1,70 @@
+﻿@page
+@model JustChat.Pages.Chat.ChatModel
+@{
+}
+
+
+<h1>@Model.ChatVM.RoomName</h1>
+
+<div class="chat-content">
+    @foreach (var message in Model.ChatVM?.Messages)
+    {
+        <div>
+            <span>@message.Author.UserName </span><span>@message.Content </span><span>@message.TimeStamp.ToLocalTime()</span>
+        </div>
+    }
+</div>
+
+<div>
+    <form method="post">
+        <div>
+            <label asp-for="MessageVM.Content"></label>
+            <input asp-for="MessageVM.Content" />
+        </div>
+        <div>
+            <button id="sendButton" class="btn waves-effect waves-light" type="submit" >
+                Submit<i class="material-icons right">send</i>
+            </button>
+        </div>
+        <input asp-for="MessageVM.AuthorId" value="@Model.ChatVM.AuthorId" class="hide" />
+        <input asp-for="MessageVM.RoomId" value="@Model.ChatVM.RoomId" class="hide" />
+        <input asp-for="MessageVM.RoomName" value="@Model.ChatVM.RoomName" class="hide" />
+        <input asp-for="MessageVM.UserName" value="@Model.ChatVM.Username" class="hide" />
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+    //Disable the send button until connection is established.
+    document.getElementById("sendButton").disabled = true;
+
+    connection.on("ReceiveMessage", function (message) {
+        //var li = document.createElement("li");
+        //document.getElementById("messagesList").appendChild(li);
+        //// We can assign user-supplied strings to an element's textContent because it
+        //// is not interpreted as markup. If you're assigning in any other way, you
+        //// should be aware of possible script injection concerns.
+        //li.textContent = `${user} says ${message}`;
+
+        let chatContent = document.querySelector(".chat-content");
+        let div = document.createElement("div");
+        div.innerHTML = `<span>${message.userName}:</span><span>$ {message.content}</span><span>${message.timeStamp}</span>`
+        chatContent.appendChild(div);
+
+    });
+
+    connection.start().then(function () {
+        document.getElementById("sendButton").disabled = false;
+        connection.invoke('JoinRoom', '@Model.ChatVM.RoomName');
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+        window.addEventListener('unload', function () {
+            connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName');
+    })
+    </script>>
+}
