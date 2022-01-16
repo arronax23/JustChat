@@ -1,0 +1,14 @@
+﻿@page
+@model JustChat.Pages.Chat.CreateRoomModel
+@{
+}
+
+<form action="/" method="post">
+    <div>
+        <label asp-for="RoomVM.RoomName"></label>
+        <input asp-for="RoomVM.RoomName" />
+    </div>
+    <div>
+        <input type="submit" value="Create Room" />
+    </div>
+</form>

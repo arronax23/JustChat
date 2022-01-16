@@ -1,5 +1,6 @@
 ﻿using JustChat.Database;
 using JustChat.Models;
+using JustChat.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,16 @@ namespace JustChat.Repositories
         public void SaveMessage(Message message)
         {
             //_appDbContext.Mess
+        }
+        public async Task CreateRoom(RoomVM roomVM)
+        {
+            var newRoom = new Room()
+            {
+                Name = roomVM.RoomName,
+                Users = _appDbContext.Users.Where(u => roomVM.UserIds.Contains(u.Id)).ToList()
+            };
+            _appDbContext.Rooms.Add(newRoom);
+            await _appDbContext.SaveChangesAsync();
         }
     }
 }
