@@ -6,3 +6,10 @@
     text-align: center;
     box-shadow:  0px -2px 0 rgb(0 0 0 / 14%)
 }
+
+
+.chat-content {
+    height: 60vh;
+    word-wrap: break-word;
+    overflow: auto;
+}

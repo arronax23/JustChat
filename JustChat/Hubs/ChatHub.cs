@@ -28,22 +28,36 @@ namespace JustChat.Hubs
             return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
         }
 
-        public async Task SendRoomMessage(MessageVM messageVM)
+        public async Task SendRoomMessage(
+            string content,
+            string userName,
+            string authorId,
+            int roomId,
+            string roomName)
         {
-            messageVM.TimeStamp = DateTime.UtcNow;
+
+            DateTime timeStamp = DateTime.Now;
 
             var message = new Message()
             {
-                Content = messageVM.Content,
-                TimeStamp = messageVM.TimeStamp,
-                AuthorId = messageVM.AuthorId,
-                RoomId = messageVM.RoomId
+                Content = content,
+                TimeStamp = timeStamp,
+                AuthorId = authorId,
+                RoomId = roomId
             };
 
             _appDbContext.Messages.Add(message);
+            await _appDbContext.SaveChangesAsync();
+
+            var messageVM = new MessageVM()
+            {
+                Content = content,
+                TimeStamp = timeStamp,
+                UserName = userName
+            };
 
             await Clients
-                .Group(messageVM.RoomName)
+                .Group(roomName)
                 .SendAsync("ReceiveMessage", messageVM);
         }
 

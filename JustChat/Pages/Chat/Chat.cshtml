@@ -10,7 +10,7 @@
     @foreach (var message in Model.ChatVM?.Messages)
     {
         <div>
-            <span>@message.Author.UserName </span><span>@message.Content </span><span>@message.TimeStamp.ToLocalTime()</span>
+            <span>@message.Author.UserName </span><span>@message.Content </span><span>@message.TimeStamp.ToString("dd.MM.yyyy, HH:mm:ff")</span>
         </div>
     }
 </div>
@@ -37,12 +37,13 @@
     <script>
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-    document.getElementById("sendButton").disabled = true;
+        document.getElementById("sendButton").disabled = true;
 
     connection.on("ReceiveMessage", function (message) {
         let chatContent = document.querySelector(".chat-content");
         let div = document.createElement("div");
-        div.innerHTML = `<span>${message.userName}:</span><span>$ {message.content}</span><span>${message.timeStamp}</span>`
+        let time = new Date(message.timeStamp).toLocaleString();
+        div.innerHTML = `<span>${message.userName}: </span><span>${message.content} </span><span>${time}</span>`
         chatContent.appendChild(div);
 
     });
@@ -61,18 +62,21 @@
         let onSubmit = function (event) {
             event.preventDefault();
             console.log(event.target)
-            connection.invoke('SendRoomMessage', {
-                content: content,
-                timeStamp: null,
-                userName:'@Model.ChatVM.UserName',
-                authorId:parseInt('@Model.ChatVM.AuthorId'),
-                roomId:parseInt('@Model.ChatVM.RoomId'),
-                roomName: '@Model.ChatVM.RoomName'
-
-            });
+            connection.invoke('SendRoomMessage',
+                content,
+                userName,
+                authorId,
+                roomId,
+                roomName,
+            );
         }
 
         let content = '';
+        let userName = '@Model.ChatVM.UserName';
+        let authorId = '@Model.ChatVM.AuthorId';
+        let roomId = parseInt('@Model.ChatVM.RoomId');
+        let roomName = '@Model.ChatVM.RoomName';
+
         let conentChange = function (event) {
             content = event.target.value;
         }
