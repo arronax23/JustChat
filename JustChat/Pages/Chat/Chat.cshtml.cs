@@ -33,8 +33,8 @@ namespace JustChat.Pages.Chat
             ChatVM = new ChatVM();
 
             ChatVM.RoomId = roomId;
-            ChatVM.AuthorId = _appDbContext.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;   
-            ChatVM.Username = _appDbContext.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).UserName;
+            ChatVM.AuthorId = _appDbContext.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
+            ChatVM.UserName = _appDbContext.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).UserName;
             Room room = _appDbContext.Rooms.FirstOrDefault(r => r.RoomId == roomId);
             ChatVM.RoomName = room.Name;
             ChatVM.Users = _appDbContext.Users.Include(u => u.Rooms).Where(u => u.Rooms.Contains(room));
@@ -50,7 +50,7 @@ namespace JustChat.Pages.Chat
             {
                 Content = MessageVM.Content,
                 TimeStamp = MessageVM.TimeStamp,
-                AuthorId = MessageVM.AuthorId,
+                //AuthorId = MessageVM.AuthorId,
                 RoomId = MessageVM.RoomId
             };
 

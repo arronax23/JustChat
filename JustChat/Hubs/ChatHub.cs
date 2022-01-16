@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using JustChat.Database;
+using JustChat.Models;
+using JustChat.ViewModels;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +11,11 @@ namespace JustChat.Hubs
 {
     public class ChatHub : Hub
     {
-        public ChatHub()
-        {
+        private readonly AppDbContext _appDbContext;
 
+        public ChatHub(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
         }
 
         public Task JoinRoom(string roomName)
@@ -23,11 +28,23 @@ namespace JustChat.Hubs
             return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
         }
 
-        public async Task SendMessage(string roomName, string author, string message, string timeStamp)
+        public async Task SendRoomMessage(MessageVM messageVM)
         {
+            messageVM.TimeStamp = DateTime.UtcNow;
+
+            var message = new Message()
+            {
+                Content = messageVM.Content,
+                TimeStamp = messageVM.TimeStamp,
+                AuthorId = messageVM.AuthorId,
+                RoomId = messageVM.RoomId
+            };
+
+            _appDbContext.Messages.Add(message);
+
             await Clients
-                .Group(roomName)
-                .SendAsync("ReceiveMessage", author, message, timeStamp);
+                .Group(messageVM.RoomName)
+                .SendAsync("ReceiveMessage", messageVM);
         }
 
     }

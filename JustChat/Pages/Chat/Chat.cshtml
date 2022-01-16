@@ -16,20 +16,19 @@
 </div>
 
 <div>
-    <form method="post">
+    <form method="post" onsubmit="onSubmit(event)">
         <div>
-            <label asp-for="MessageVM.Content"></label>
-            <input asp-for="MessageVM.Content" />
+            <input name="content" onchange="conentChange(event)" />
         </div>
         <div>
             <button id="sendButton" class="btn waves-effect waves-light" type="submit" >
-                Submit<i class="material-icons right">send</i>
+                Submit@*<i class="material-icons right">send</i>*@
             </button>
         </div>
-        <input asp-for="MessageVM.AuthorId" value="@Model.ChatVM.AuthorId" class="hide" />
-        <input asp-for="MessageVM.RoomId" value="@Model.ChatVM.RoomId" class="hide" />
-        <input asp-for="MessageVM.RoomName" value="@Model.ChatVM.RoomName" class="hide" />
-        <input asp-for="MessageVM.UserName" value="@Model.ChatVM.Username" class="hide" />
+        @*<input name="authorId" value="@Model.ChatVM.AuthorId" class="hide" />
+        <input name="roomdId" value="@Model.ChatVM.RoomId" class="hide" />
+        <input name="roomName" value="@Model.ChatVM.RoomName" class="hide" />
+        <input name="userName" value="@Model.ChatVM.UserName" class="hide" />*@
     </form>
 </div>
 
@@ -38,17 +37,9 @@
     <script>
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-    //Disable the send button until connection is established.
     document.getElementById("sendButton").disabled = true;
 
     connection.on("ReceiveMessage", function (message) {
-        //var li = document.createElement("li");
-        //document.getElementById("messagesList").appendChild(li);
-        //// We can assign user-supplied strings to an element's textContent because it
-        //// is not interpreted as markup. If you're assigning in any other way, you
-        //// should be aware of possible script injection concerns.
-        //li.textContent = `${user} says ${message}`;
-
         let chatContent = document.querySelector(".chat-content");
         let div = document.createElement("div");
         div.innerHTML = `<span>${message.userName}:</span><span>$ {message.content}</span><span>${message.timeStamp}</span>`
@@ -60,11 +51,30 @@
         document.getElementById("sendButton").disabled = false;
         connection.invoke('JoinRoom', '@Model.ChatVM.RoomName');
     }).catch(function (err) {
-        return console.error(err.toString());
+        return console.log(err.toString());
     });
 
-        window.addEventListener('unload', function () {
-            connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName');
-    })
+    window.addEventListener('unload', function () {
+        connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName');
+    });
+
+        let onSubmit = function (event) {
+            event.preventDefault();
+            console.log(event.target)
+            connection.invoke('SendRoomMessage', {
+                content: content,
+                timeStamp: null,
+                userName:'@Model.ChatVM.UserName',
+                authorId:parseInt('@Model.ChatVM.AuthorId'),
+                roomId:parseInt('@Model.ChatVM.RoomId'),
+                roomName: '@Model.ChatVM.RoomName'
+
+            });
+        }
+
+        let content = '';
+        let conentChange = function (event) {
+            content = event.target.value;
+        }
     </script>>
 }
