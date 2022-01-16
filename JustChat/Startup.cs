@@ -14,6 +14,7 @@ using JustChat.Database;
 using Microsoft.AspNetCore.Identity;
 using JustChat.Repositories.Inrefaces;
 using JustChat.Repositories;
+using JustChat.Hubs;
 
 namespace JustChat
 {
@@ -38,6 +39,8 @@ namespace JustChat
             services.AddRazorPages();
 
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -63,6 +66,7 @@ namespace JustChat
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }
