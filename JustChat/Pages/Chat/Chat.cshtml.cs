@@ -7,6 +7,7 @@ using JustChat.Database;
 using JustChat.Hubs;
 using JustChat.Models;
 using JustChat.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JustChat.Pages.Chat
 {
+    [Authorize]
     public class ChatModel : PageModel
     {
         private readonly AppDbContext _appDbContext;
@@ -42,27 +44,27 @@ namespace JustChat.Pages.Chat
 
         }
 
-        public async Task<IActionResult> OnPostAsync([FromServices] IHubContext<ChatHub> hubContext)
-        {
-            MessageVM.TimeStamp = DateTime.UtcNow;
+        //public async Task<IActionResult> OnPostAsync([FromServices] IHubContext<ChatHub> hubContext)
+        //{
+        //    MessageVM.TimeStamp = DateTime.UtcNow;
 
-            var message = new Message()
-            {
-                Content = MessageVM.Content,
-                TimeStamp = MessageVM.TimeStamp,
-                //AuthorId = MessageVM.AuthorId,
-                RoomId = MessageVM.RoomId
-            };
+        //    var message = new Message()
+        //    {
+        //        Content = MessageVM.Content,
+        //        TimeStamp = MessageVM.TimeStamp,
+        //        //AuthorId = MessageVM.AuthorId,
+        //        RoomId = MessageVM.RoomId
+        //    };
 
-            _appDbContext.Messages.Add(message);
-            await _appDbContext.SaveChangesAsync();
+        //    _appDbContext.Messages.Add(message);
+        //    await _appDbContext.SaveChangesAsync();
 
-            await hubContext
-                .Clients
-                .Group(MessageVM.RoomName)
-                .SendAsync("ReceiveMessage", MessageVM);
+        //    await hubContext
+        //        .Clients
+        //        .Group(MessageVM.RoomName)
+        //        .SendAsync("ReceiveMessage", MessageVM);
 
-            return RedirectToPage("Chat", new { roomId = MessageVM.RoomId });
-        }
+        //    return RedirectToPage("Chat", new { roomId = MessageVM.RoomId });
+        //}
     }
 }
