@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - JustChat</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -16,11 +17,11 @@
                 <a href="/" class="brand-logo">JustChat</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <ul id="nav-mobile" class="right">
-                        <li><a class="disabled username">@UserManager.GetUserAsync(User).Result.UserName</a></li>
-                        <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
-
-                    </ul>
+                <ul id="nav-mobile" class="right">
+                    <li><a class="disabled username">@UserManager.GetUserAsync(User).Result.UserName</a></li>
+                    <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
+                    <li><a asp-page="/Authentication/Logout"><i class="material-icons right">exit_to_app</i>Logout</a></li>
+                </ul>
                     <ul id='dropdown1' class='dropdown-content'>
                         <li><a href="#!" class="pink lighten-5">BACK</a></li>
                         <li class="divider"></li>

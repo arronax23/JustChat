@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using JustChat.Repositories.Inrefaces;
 using JustChat.Repositories;
 using JustChat.Hubs;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace JustChat
 {
@@ -35,6 +36,13 @@ namespace JustChat
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Authentication/Login";
+                options.LogoutPath = "/Authentication/Logout";
+            });
 
             services.AddRazorPages();
 
@@ -62,6 +70,7 @@ namespace JustChat
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

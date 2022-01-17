@@ -15,9 +15,9 @@ namespace JustChat.Pages.Chat
         public void OnGet()
         {
         }
-        public async Task OnPostAsync()
+        public void OnPostAsync()
         {
-
+    
         }
     }
 }

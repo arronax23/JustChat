@@ -7,6 +7,7 @@ using JustChat.Database;
 using JustChat.Hubs;
 using JustChat.Models;
 using JustChat.ViewModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JustChat.Pages.Chat
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class ChatModel : PageModel
     {
         private readonly AppDbContext _appDbContext;

@@ -17,3 +17,11 @@ a.disabled {
     pointer-events: none;
     cursor: default;
 }
+/*
+.login-form-container {
+    text-align: center;
+}*/
+
+.logout-form {
+    display: inline-block;
+}

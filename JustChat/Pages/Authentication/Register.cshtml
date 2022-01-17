@@ -4,17 +4,29 @@
 }
 
 <form method="post">
-    <div>
-        <label asp-for="UserVM.Username"></label>
-        <input asp-for="UserVM.Username" />
-        <span asp-validation-for="UserVM.Username"></span>
+    <div class="row">
+        <div class="col s3">
+        </div>
+        <div class="col s6">
+            <label asp-for="UserVM.Username"></label>
+            <input asp-for="UserVM.Username" />
+            @*<span asp-validation-for="UserVM.Username"></span>*@
+        </div>
+        <div class="col s3">
+        </div>
     </div>
-    <div>
-        <label asp-for="UserVM.Password"></label>
-        <input type="password" asp-for="UserVM.Password" />
-        <span asp-validation-for="UserVM.Password"></span>
+    <div class="row">
+        <div class="col s3">
+        </div>
+        <div class="col s6">
+            <label asp-for="UserVM.Password"></label>
+            <input type="password" asp-for="UserVM.Password" />
+            @*<span asp-validation-for="UserVM.Password"></span>*@
+        </div>
+        <div class="col s3">
+        </div>
     </div>
-    <div>
+    <div class="center-align">
         <input type="submit" value="Register" class="waves-effect waves-light btn" />
     </div>
 </form>
