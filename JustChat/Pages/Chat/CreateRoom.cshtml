@@ -45,11 +45,21 @@
                 data: {
                 },
                 onAutocomplete: function (invitedUser) {
-                   /* console.log(invitedUser);*/
+                    delete options.data[invitedUser];
                     invitedUsersList.push(invitedUser);
-                    let invitedUsersDiv = document.createElement("div");
-                    invitedUsersDiv.textContent = invitedUser;
-                    document.querySelector(".invited-users").appendChild(invitedUsersDiv);
+                    let invitedUserDiv = document.createElement("div");
+                    invitedUserDiv.innerHTML = `<i class="material-icons prefix">face</i>${invitedUser}`;
+                    invitedUserDiv.className = `invited-user ${invitedUser}`;
+                    let deleteIcon = document.createElement("i");
+                    deleteIcon.className = "material-icons prefix delete";
+                    deleteIcon.innerHTML = "delete";
+                    invitedUserDiv.appendChild(deleteIcon);
+                    document.querySelector(".invited-users").appendChild(invitedUserDiv);
+
+                    deleteIcon.onclick = function () {
+                        document.querySelector(`.${invitedUser}`).remove();
+                        options.data[invitedUser] = null;
+                    }
                 }
             };
 

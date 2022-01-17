@@ -25,3 +25,19 @@ a.disabled {
 .logout-form {
     display: inline-block;
 }
+
+.invited-users {
+    margin-top: 1rem;
+}
+
+.invited-user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete:hover{
+    cursor: pointer;
+    opacity: 0.5;
+}
