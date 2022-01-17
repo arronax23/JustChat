@@ -19,7 +19,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JustChat.Pages.Chat
 {
-    //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize]
     public class ChatModel : PageModel
     {
         private readonly AppDbContext _appDbContext;

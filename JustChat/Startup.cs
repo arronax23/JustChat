@@ -37,23 +37,10 @@ namespace JustChat
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
+            services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Authentication/Login";
-                options.LogoutPath = "/Authentication/Logout";
             });
-
-            //services.AddAuthentication(config => {
-            //    config.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //    config.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //    config.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //})
-            //.AddCookie(options =>
-            //{
-            //    options.LoginPath = "/Authentication/Login";
-            //    options.LogoutPath = "/Authentication/Logout";
-            //});
 
             services.AddRazorPages();
             services.AddControllers();
