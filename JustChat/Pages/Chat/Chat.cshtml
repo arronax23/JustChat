@@ -10,7 +10,9 @@
     @foreach (var message in Model.ChatVM?.Messages)
     {
         <div>
-            <span>@message.Author.UserName </span><span>@message.Content </span><span>@message.TimeStamp.ToString("dd.MM.yyyy, HH:mm:ff")</span>
+            <span>@message.Author.UserName: </span>
+            <span>@message.Content </span>
+            <span class="time-span">@message.TimeStamp.ToString("dd.MM.yyyy, HH:mm:ss")</span>
         </div>
     }
 </div>
@@ -43,7 +45,7 @@
         let chatContent = document.querySelector(".chat-content");
         let div = document.createElement("div");
         let time = new Date(message.timeStamp).toLocaleString();
-        div.innerHTML = `<span>${message.userName}: </span><span>${message.content} </span><span>${time}</span>`
+        div.innerHTML = `<span>${message.userName}: </span><span>${message.content} </span><span class="time-span">${time}</span>`;
         chatContent.appendChild(div);
 
     });

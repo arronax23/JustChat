@@ -41,3 +41,7 @@ a.disabled {
     cursor: pointer;
     opacity: 0.5;
 }
+
+.time-span {
+    float: right;
+}
