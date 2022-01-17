@@ -44,9 +44,22 @@ namespace JustChat
                 options.LogoutPath = "/Authentication/Logout";
             });
 
+            //services.AddAuthentication(config => {
+            //    config.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    config.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    config.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //})
+            //.AddCookie(options =>
+            //{
+            //    options.LoginPath = "/Authentication/Login";
+            //    options.LogoutPath = "/Authentication/Logout";
+            //});
+
             services.AddRazorPages();
+            services.AddControllers();
 
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
 
             services.AddSignalR();
         }
@@ -75,6 +88,7 @@ namespace JustChat
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapHub<ChatHub>("/chatHub");
             });
         }

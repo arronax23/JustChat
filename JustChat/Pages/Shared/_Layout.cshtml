@@ -11,7 +11,11 @@
                                     .Include(ru => ru.Room)
                                     .Include(ru => ru.User)
                                     .Where(ru => ru.User == currentUser)
-                                    .Select(ru => new Room() { Name =  ru.Room.Name});
+                                    .Select(ru => new Room()
+                                    {
+                                        RoomId = ru.Room.RoomId,
+                                        Name =  ru.Room.Name
+                                    });
 
 }
 <!DOCTYPE html>
@@ -43,7 +47,7 @@
                         {
                             @foreach (var userRoom in userRooms)
                             {
-                                <li><a href="#!">@userRoom.Name</a></li>
+                                <li><a asp-page="/Chat/Chat" asp-route-roomId="@userRoom.RoomId">@userRoom.Name</a></li>
                                 <li class="divider"></li>
                             }
                         }

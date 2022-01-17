@@ -1,5 +1,6 @@
 ﻿using JustChat.Database;
 using JustChat.Models;
+using JustChat.Repositories.Inrefaces;
 using JustChat.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JustChat.Repositories
 {
-    public class ChatRepository
+    public class ChatRepository : IChatRepository
     {
         private readonly AppDbContext _appDbContext;
 
@@ -20,15 +21,23 @@ namespace JustChat.Repositories
         {
             //_appDbContext.Mess
         }
-        public async Task CreateRoom(RoomVM roomVM)
+        public async Task<bool> CreateRoom(RoomVM roomVM)
         {
             var newRoom = new Room()
             {
                 Name = roomVM.RoomName,
-                Users = _appDbContext.Users.Where(u => roomVM.UserIds.Contains(u.Id)).ToList()
+                Users = _appDbContext.Users.Where(u => roomVM.InvitedUsersNames.Contains(u.UserName)).ToList()
             };
+
             _appDbContext.Rooms.Add(newRoom);
-            await _appDbContext.SaveChangesAsync();
+            var isCreated = await _appDbContext.SaveChangesAsync() > 0;
+
+            return isCreated;
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _appDbContext.Users;
         }
     }
 }

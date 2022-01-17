@@ -3,12 +3,84 @@
 @{
 }
 
-<form action="/" method="post">
-    <div>
-        <label asp-for="RoomVM.RoomName"></label>
-        <input asp-for="RoomVM.RoomName" />
+<form onsubmit="onSubmit(event)">
+    <div class="row">
+        <div class="col s3"></div>
+        <div class="col s6">
+            <label for="roomName">Room Name</label>
+            <input id="roomName" name="roomName" />
+        </div>
+        <div class="col s3"></div>
     </div>
-    <div>
-        <input type="submit" value="Create Room" />
+    <div class="row">
+        <div class="col s3"></div>
+        <div class="input-field col s6">
+            <i class="material-icons prefix">face</i>
+            <input type="text" id="autocomplete-input" class="autocomplete">
+            <label for="autocomplete-input">Find users</label>
+        </div>
+        <div class="col s3"></div>
+    </div>
+    <div class="center-align">
+        <button type="submit" class="waves-effect waves-light btn light-green accent-4"><i class="material-icons right">send</i>Create Room</button>
     </div>
 </form>
+
+
+
+<div class="col s12 invited-users center-align">
+    <div>Invited users:</div>
+</div>
+
+@section Scripts {
+    <script>
+            let invitedUsersList = [];
+
+            let roomVM = {
+                roomName: "",
+                invitedUsersNames: invitedUsersList
+            };
+
+            let options = {
+                data: {
+                },
+                onAutocomplete: function (invitedUser) {
+                   /* console.log(invitedUser);*/
+                    invitedUsersList.push(invitedUser);
+                    let invitedUsersDiv = document.createElement("div");
+                    invitedUsersDiv.textContent = invitedUser;
+                    document.querySelector(".invited-users").appendChild(pickedUserDiv);
+                }
+            };
+
+            @*console.log(@Html.Raw(@Json.Serialize(Model.AllUserNames)));*@
+
+            for (let item of @Html.Raw(@Json.Serialize(Model.AllUsersNames))) {
+            /*console.log(item);*/
+                options.data[item] = null;
+            }
+
+            let onSubmit = function (event) {
+                event.preventDefault();
+
+                let roomNameInput = document.querySelector("#roomName");
+                roomVM.roomName = roomNameInput.value;
+
+                fetch("/Chat/CreateRoom", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(roomVM)
+                })
+                .then(response => console.log(response))
+                .catch(err => console.log(err))
+            }
+
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var elems = document.querySelectorAll('.autocomplete');
+                var instances = M.Autocomplete.init(elems, options);
+            });
+    </script>
+}
