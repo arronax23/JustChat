@@ -1,5 +1,19 @@
 ﻿@inject Microsoft.AspNetCore.Identity.UserManager<User> UserManager
 @inject Microsoft.AspNetCore.Identity.SignInManager<User> SignInManager
+@inject JustChat.Database.AppDbContext AppDbContext
+@using Microsoft.EntityFrameworkCore
+
+@{
+    User currentUser = null;
+    if (SignInManager.IsSignedIn(User))
+        currentUser = await UserManager.GetUserAsync(User);
+    var userRooms = AppDbContext.RoomUsers
+                                    .Include(ru => ru.Room)
+                                    .Include(ru => ru.User)
+                                    .Where(ru => ru.User == currentUser)
+                                    .Select(ru => new Room() { Name =  ru.Room.Name});
+
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,16 +31,22 @@
                 <a href="/" class="brand-logo">JustChat</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                <ul id="nav-mobile" class="right">
-                    <li><a class="disabled username">@UserManager.GetUserAsync(User).Result.UserName</a></li>
-                    <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
-                    <li><a asp-page="/Authentication/Logout"><i class="material-icons right">exit_to_app</i>Logout</a></li>
-                </ul>
+                    <ul id="nav-mobile" class="right">
+                        <li><a class="disabled username">@currentUser.UserName</a></li>
+                        <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
+                        <li><a asp-page="/Authentication/Logout"><i class="material-icons right">exit_to_app</i>Logout</a></li>
+                    </ul>
                     <ul id='dropdown1' class='dropdown-content'>
-                        <li><a href="#!" class="pink lighten-5">BACK</a></li>
-                        <li class="divider"></li>
                         <li><a href="#!">Main room</a></li>
                         <li class="divider"></li>
+                        @if (userRooms != null)
+                        {
+                            @foreach (var userRoom in userRooms)
+                            {
+                                <li><a href="#!">@userRoom.Name</a></li>
+                                <li class="divider"></li>
+                            }
+                        }
                         <li><a href="#!">Bob's room</a></li>
                         <li class="divider"></li>
                         <li><a href="#!">Anton's room</a></li>
