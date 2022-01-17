@@ -13,7 +13,7 @@ namespace JustChat.Pages.Chat
     public class CreateRoomModel : PageModel
     {
         [BindProperty]
-        public RoomVM RoomVM { get; set; }
+        public NewRoomVM NewRoomVM { get; set; }
         public IEnumerable<string> AllUsersNames { get; set; }
 
         private readonly IChatRepository _chatRepository;

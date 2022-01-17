@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JustChat.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220116112634_UserId_string")]
-    partial class UserId_string
+    [Migration("20220117173709_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -7,7 +7,7 @@ namespace JustChat.Repositories.Inrefaces
 {
     public interface IChatRepository
     {
-        Task<bool> CreateRoom(RoomVM roomVM);
+        Task<bool> CreateRoom(NewRoomVM roomVM);
         IEnumerable<User> GetAllUsers();
         void SaveMessage(Message message);
     }

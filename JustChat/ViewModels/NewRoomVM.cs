@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JustChat.ViewModels
 {
-    public class RoomVM
+    public class NewRoomVM
     {
         [Display(Name = "Room Name")]
         public string RoomName { get; set; }

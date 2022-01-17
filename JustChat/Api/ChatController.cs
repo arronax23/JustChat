@@ -20,9 +20,9 @@ namespace JustChat.Api
         }
 
         [HttpPost("/Chat/CreateRoom")]
-        public async Task<IActionResult> CreateRoom(RoomVM roomVM)
+        public async Task<IActionResult> CreateRoom(NewRoomVM newRoomVM)
         {
-            var isCreated = await _chatRepository.CreateRoom(roomVM);
+            var isCreated = await _chatRepository.CreateRoom(newRoomVM);
 
             if (isCreated)
                 return Ok();

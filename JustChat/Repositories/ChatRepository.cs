@@ -21,12 +21,12 @@ namespace JustChat.Repositories
         {
             //_appDbContext.Mess
         }
-        public async Task<bool> CreateRoom(RoomVM roomVM)
+        public async Task<bool> CreateRoom(NewRoomVM newRoomVM)
         {
             var newRoom = new Room()
             {
-                Name = roomVM.RoomName,
-                Users = _appDbContext.Users.Where(u => roomVM.InvitedUsersNames.Contains(u.UserName)).ToList()
+                Name = newRoomVM.RoomName,
+                Users = _appDbContext.Users.Where(u => newRoomVM.InvitedUsersNames.Contains(u.UserName)).ToList()
             };
 
             _appDbContext.Rooms.Add(newRoom);
