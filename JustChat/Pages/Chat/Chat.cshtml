@@ -3,35 +3,47 @@
 @{
 }
 
-
-<h3 class="center-align">@Model.ChatVM.RoomName</h3>
-
-<div class="chat-content">
-    @foreach (var message in Model.ChatVM?.Messages)
-    {
-        <div>
-            <span>@message.Author.UserName: </span>
-            <span>@message.Content </span>
-            <span class="time-span">@message.TimeStamp.ToString("dd.MM.yyyy, HH:mm:ss")</span>
+<div class="chat-page">
+    <div class="chat-container">
+        <h3 class="center-align">@Model.ChatVM.RoomName</h3>
+        <div class="chat-content">
+            @foreach (var message in Model.ChatVM?.Messages)
+            {
+                <div>
+                    <span>@message.Author.UserName: </span>
+                    <span>@message.Content </span>
+                    <span class="time-span">@message.TimeStamp.ToString("dd.MM.yyyy, HH:mm:ss")</span>
+                </div>
+            }
         </div>
-    }
-</div>
 
-<div>
-    <form method="post" onsubmit="onSubmit(event)">
         <div>
-            <input name="content" onchange="conentChange(event)" />
+            <form method="post" onsubmit="onSubmit(event)">
+                <div>
+                    <input name="content" onchange="conentChange(event)" />
+                </div>
+                <div>
+                    <button id="sendButton" class="btn waves-effect waves-light" type="submit">
+                        Submit@*<i class="material-icons right">send</i>*@
+                    </button>
+                </div>
+                @*<input name="authorId" value="@Model.ChatVM.AuthorId" class="hide" />
+                <input name="roomdId" value="@Model.ChatVM.RoomId" class="hide" />
+                <input name="roomName" value="@Model.ChatVM.RoomName" class="hide" />
+                <input name="userName" value="@Model.ChatVM.UserName" class="hide" />*@
+            </form>
         </div>
-        <div>
-            <button id="sendButton" class="btn waves-effect waves-light" type="submit" >
-                Submit@*<i class="material-icons right">send</i>*@
-            </button>
-        </div>
-        @*<input name="authorId" value="@Model.ChatVM.AuthorId" class="hide" />
-        <input name="roomdId" value="@Model.ChatVM.RoomId" class="hide" />
-        <input name="roomName" value="@Model.ChatVM.RoomName" class="hide" />
-        <input name="userName" value="@Model.ChatVM.UserName" class="hide" />*@
-    </form>
+    </div>
+    <div class="users-container center-align">
+        <h6 class="">Users</h6>
+        @foreach(var userName in Model.ChatVM.UserNames)
+        {
+            <div class="user-bar offline-user @userName">
+                <i class="material-icons prefix">face</i>
+                @userName
+            </div>
+        }
+    </div>
 </div>
 
 @section Scripts {
@@ -50,15 +62,27 @@
 
     });
 
+    connection.on("JoinedRoom", function (activeUsers) {
+        console.log(activeUsers);
+        for (let activeUser of activeUsers) {
+            document.querySelector(`.${activeUser}`).classList.remove("offline-user");
+        }
+     
+    });
+
+    connection.on("LeftRoom", function (userWhoLeft) {
+        document.querySelector(`.${userWhoLeft}`).classList.add("offline-user");
+    });
+
     connection.start().then(function () {
         document.getElementById("sendButton").disabled = false;
-        connection.invoke('JoinRoom', '@Model.ChatVM.RoomName');
+        connection.invoke('JoinRoom', '@Model.ChatVM.RoomName', '@Model.ChatVM.CurrentUserName');
     }).catch(function (err) {
         return console.log(err.toString());
     });
 
     window.addEventListener('unload', function () {
-        connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName');
+        connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName','@Model.ChatVM.CurrentUserName');
     });
 
         let onSubmit = function (event) {
@@ -74,7 +98,7 @@
         }
 
         let content = '';
-        let userName = '@Model.ChatVM.UserName';
+        let userName = '@Model.ChatVM.CurrentUserName';
         let authorId = '@Model.ChatVM.AuthorId';
         let roomId = parseInt('@Model.ChatVM.RoomId');
         let roomName = '@Model.ChatVM.RoomName';
@@ -82,5 +106,5 @@
         let conentChange = function (event) {
             content = event.target.value;
         }
-    </script>>
+    </script>
 }

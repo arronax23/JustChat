@@ -11,5 +11,6 @@ namespace JustChat.Models
         public string Name { get; set; }
         public ICollection<User> Users { get; set; }
         public ICollection<Message> Messages { get; set; }
+        public ICollection<ActiveRoomUser> ActiveRoomUsers { get; set; }
     }
 }

@@ -45,10 +45,6 @@
                                 <li class="divider"></li>
                             }
                         }
-                        <li><a href="#!">Bob's room</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#!">Anton's room</a></li>
-                        <li class="divider"></li>
                         <li><a asp-page="/Chat/CreateRoom" class="cyan lighten-5">CREATE ROOM</a></li>
                     </ul>
                 }
@@ -62,11 +58,9 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main>
+        @RenderBody()
+    </main>
 
     <footer class="page-footer">
         <div>Created by Wiktor Zielak</div>

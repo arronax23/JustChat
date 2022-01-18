@@ -7,10 +7,37 @@
     box-shadow:  0px -2px 0 rgb(0 0 0 / 14%)
 }
 
+.chat-page{
+    display: flex;
+    flex-direction: row;
+}
+
 .chat-content {
     height: 60vh;
     word-wrap: break-word;
     overflow: auto;
+}
+
+.users-container {
+    width: 25vw;
+    border: 1px solid black;
+    margin: 3rem;
+}
+
+.chat-container {
+    width: 70vw;
+    margin-left: 1rem;
+}
+
+.user-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.offline-user{
+    opacity: 0.5;
 }
 
 a.disabled {

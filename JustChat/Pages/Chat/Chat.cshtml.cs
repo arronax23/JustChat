@@ -23,13 +23,16 @@ namespace JustChat.Pages.Chat
     public class ChatModel : PageModel
     {
         private readonly AppDbContext _appDbContext;
-        public ChatVM ChatVM { get; set; }
-        [BindProperty]
-        public MessageVM MessageVM { get; set; }
+        private readonly UserManager<User> _userManager;
 
-        public ChatModel(AppDbContext appDbContext)
+        public ChatVM ChatVM { get; set; }
+        //[BindProperty]
+        //public MessageVM MessageVM { get; set; }
+
+        public ChatModel(AppDbContext appDbContext, UserManager<User> userManager)
         {
             _appDbContext = appDbContext;
+            _userManager = userManager;
         }
 
         public void OnGet(int roomId)
@@ -38,12 +41,12 @@ namespace JustChat.Pages.Chat
 
             ChatVM.RoomId = roomId;
             ChatVM.AuthorId = _appDbContext.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
-            ChatVM.UserName = _appDbContext.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).UserName;
+            ChatVM.CurrentUserName = _appDbContext.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).UserName;
             Room room = _appDbContext.Rooms.FirstOrDefault(r => r.RoomId == roomId);
             ChatVM.RoomName = room.Name;
-            ChatVM.Users = _appDbContext.Users.Include(u => u.Rooms).Where(u => u.Rooms.Contains(room));
             ChatVM.Messages = _appDbContext.Messages.Include(m => m.Author).Where(m => m.RoomId == roomId);
 
+            ChatVM.UserNames = _appDbContext.Users.Include(u => u.Rooms).Where(u => u.Rooms.Contains(room)).Select(u => u.UserName);
         }
 
         //public async Task<IActionResult> OnPostAsync([FromServices] IHubContext<ChatHub> hubContext)

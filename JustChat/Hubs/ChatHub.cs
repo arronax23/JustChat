@@ -18,14 +18,43 @@ namespace JustChat.Hubs
             _appDbContext = appDbContext;
         }
 
-        public Task JoinRoom(string roomName)
+        public async Task JoinRoom(string roomName,string userName)
         {
-            return Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+            var room = _appDbContext.Rooms.FirstOrDefault(r => r.Name == roomName);
+
+            _appDbContext.ActiveRoomUsers.Add(new ActiveRoomUser()
+            {
+                Room = room,
+                UserName = userName
+            });;
+
+            await _appDbContext.SaveChangesAsync();
+
+            var activeUsers = _appDbContext.ActiveRoomUsers
+                .Where(aru => aru.Room == room)
+                .Select(aru => aru.UserName)
+                .AsEnumerable();
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+            await Clients
+                .Group(roomName)
+                .SendAsync("JoinedRoom", activeUsers);
         }
 
-        public Task LeaveRoom(string roomName)
+        public async Task LeaveRoom(string roomName,string userName)
         {
-            return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+            var room = _appDbContext.Rooms.FirstOrDefault(r => r.Name == roomName);
+            //var activeUserLeavingRoom = _appDbContext.ActiveRoomUsers.FirstOrDefault(aru => aru.Room == room && aru.UserName == userName);
+            var activeUserLeavingRoom = _appDbContext.ActiveRoomUsers.Where(aru => aru.Room == room && aru.UserName == userName);
+
+            _appDbContext.ActiveRoomUsers.RemoveRange(activeUserLeavingRoom);
+            await _appDbContext.SaveChangesAsync();
+
+
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+            await Clients
+                .Group(roomName)
+                .SendAsync("LeftRoom", userName);
         }
 
         public async Task SendRoomMessage(
