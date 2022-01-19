@@ -92,7 +92,7 @@
         return console.log(err.toString());
     });
 
-    window.addEventListener('unload', function () {
+        window.addEventListener('beforeunload', function () {
         connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName','@Model.ChatVM.CurrentUserName');
     });
 

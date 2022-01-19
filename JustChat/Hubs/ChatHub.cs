@@ -20,7 +20,7 @@ namespace JustChat.Hubs
 
         public async Task JoinRoom(string roomName,string userName)
         {
-            var room = _appDbContext.Rooms.FirstOrDefault(r => r.Name == roomName);
+            var room = _appDbContext.Rooms.SingleOrDefault(r => r.Name == roomName);
 
             _appDbContext.ActiveRoomUsers.Add(new ActiveRoomUser()
             {
@@ -43,9 +43,9 @@ namespace JustChat.Hubs
 
         public async Task LeaveRoom(string roomName,string userName)
         {
-            var room = _appDbContext.Rooms.FirstOrDefault(r => r.Name == roomName);
-            //var activeUserLeavingRoom = _appDbContext.ActiveRoomUsers.FirstOrDefault(aru => aru.Room == room && aru.UserName == userName);
-            var activeUserLeavingRoom = _appDbContext.ActiveRoomUsers.Where(aru => aru.Room == room && aru.UserName == userName);
+            var room = _appDbContext.Rooms.SingleOrDefault(r => r.Name == roomName);
+            var activeUserLeavingRoom = _appDbContext.ActiveRoomUsers.FirstOrDefault(aru => aru.Room == room && aru.UserName == userName);
+            //var activeUserLeavingRoom = _appDbContext.ActiveRoomUsers.Where(aru => aru.Room == room && aru.UserName == userName);
 
             _appDbContext.ActiveRoomUsers.RemoveRange(activeUserLeavingRoom);
             await _appDbContext.SaveChangesAsync();
