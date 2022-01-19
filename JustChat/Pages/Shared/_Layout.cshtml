@@ -30,7 +30,7 @@
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <ul id="nav-mobile" class="right">
-                        <li><a class="disabled username">@currentUser.UserName</a></li>
+                        <li><a class="disabled username"><i class="material-icons prefix">face</i>@currentUser.UserName</a></li>
                         <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
                         <li><a asp-page="/Authentication/Logout"><i class="material-icons right">logout</i>Logout</a></li>
                     </ul>
