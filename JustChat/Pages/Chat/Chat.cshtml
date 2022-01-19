@@ -20,7 +20,7 @@
         <div>
             <form method="post" onsubmit="onSubmit(event)">
                 <div>
-                    <input name="content" onchange="conentChange(event)" />
+                    <input id="content-input" name="content" onchange="conentChange(event)" />
                 </div>
                 <div>
                     <button id="sendButton" class="btn waves-effect waves-light" type="submit">
@@ -98,7 +98,8 @@
 
         let onSubmit = function (event) {
             event.preventDefault();
-            console.log(event.target)
+            console.log(event.target);
+            document.querySelector("#content-input").value = '';
             connection.invoke('SendRoomMessage',
                 content,
                 userName,
