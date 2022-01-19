@@ -21,7 +21,8 @@ namespace JustChat.Pages.Authentication
             var registrationResult = await authenticationRepository.Register(userVM);
 
             if (!registrationResult)
-                return Page();
+                return RedirectToPage("/Error");
+
             return RedirectToPage("SuccessfullRegistration");
         }
     }

@@ -21,7 +21,7 @@ namespace JustChat.Pages.Authentication
         {
             var isSuccesfull = await authenticationRepository.Login(userVM);
             if (!isSuccesfull)
-                return Page();
+                return RedirectToPage("/Error");
 
             return RedirectToPage("SuccessfullLogin");
         }

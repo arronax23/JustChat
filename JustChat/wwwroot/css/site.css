@@ -74,6 +74,10 @@ a.disabled {
     margin-top: 1rem;
 }
 
+.invited-users h6 {
+    font-weight: bold;
+}
+
 .invited-user {
     display: flex;
     flex-direction: row;

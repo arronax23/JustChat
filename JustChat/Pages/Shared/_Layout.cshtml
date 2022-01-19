@@ -9,7 +9,7 @@
         currentUser = await UserManager.GetUserAsync(User);
     var userRooms = AppDbContext.Rooms
                                     .Include(r => r.Users)
-                                    .Where(r => r.Users.Contains(currentUser));
+                                    .Where(r => r.Users.Contains(currentUser) && r.RoomId != 1);
 
 }
 <!DOCTYPE html>
@@ -35,7 +35,7 @@
                         <li><a asp-page="/Authentication/Logout"><i class="material-icons right">logout</i>Logout</a></li>
                     </ul>
                     <ul id='dropdown1' class='dropdown-content'>
-                        <li><a href="#!">Main room</a></li>
+                        <li><a asp-page="/Chat/Chat" asp-route-roomId="1">Main Room</a></li>
                         <li class="divider"></li>
                         @if (userRooms != null)
                         {

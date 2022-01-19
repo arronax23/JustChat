@@ -49,28 +49,5 @@ namespace JustChat.Pages.Chat
 
             UsersNamesPossibleToInvite = _appDbContext.Users.Where(u => !u.Rooms.Contains(room)).Select(u => u.UserName);
         }
-
-        //public async Task<IActionResult> OnPostAsync([FromServices] IHubContext<ChatHub> hubContext)
-        //{
-        //    MessageVM.TimeStamp = DateTime.UtcNow;
-
-        //    var message = new Message()
-        //    {
-        //        Content = MessageVM.Content,
-        //        TimeStamp = MessageVM.TimeStamp,
-        //        //AuthorId = MessageVM.AuthorId,
-        //        RoomId = MessageVM.RoomId
-        //    };
-
-        //    _appDbContext.Messages.Add(message);
-        //    await _appDbContext.SaveChangesAsync();
-
-        //    await hubContext
-        //        .Clients
-        //        .Group(MessageVM.RoomName)
-        //        .SendAsync("ReceiveMessage", MessageVM);
-
-        //    return RedirectToPage("Chat", new { roomId = MessageVM.RoomId });
-        //}
     }
 }
