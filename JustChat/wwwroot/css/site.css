@@ -30,7 +30,8 @@
 .room-users {
     border: 1px solid black;
     border-radius: 5px;
-    height: 100%;
+    height: 65vh;
+    overflow: auto;
 }
 
 .room-users h6 {
@@ -44,6 +45,11 @@ invite-users {
 .chat-container {
     width: 70vw;
     margin-left: 1rem;
+}
+
+.chat-container h3 {
+    font-weight: bold;
+
 }
 
 .user-bar {
