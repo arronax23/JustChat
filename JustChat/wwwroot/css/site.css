@@ -20,8 +20,25 @@
 
 .users-container {
     width: 25vw;
-    border: 1px solid black;
     margin: 3rem;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.room-users {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 100%;
+}
+
+.room-users h6 {
+    font-weight: bold;
+}
+
+invite-users {
+  /*  align-self: flex-end;*/
 }
 
 .chat-container {

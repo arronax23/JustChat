@@ -29,5 +29,17 @@ namespace JustChat.Api
             else
                 return BadRequest();
         }
+
+        [HttpPost("/Chat/AddUserToRoom")]
+        public async Task<IActionResult> AddUserToRoom(AddUserToRoomVM addUserToRoomVM)
+        {
+            var isModified = await _chatRepository.AddUserToRoom(addUserToRoomVM);
+
+            if (isModified)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
     }
 }

@@ -35,14 +35,25 @@
         </div>
     </div>
     <div class="users-container center-align">
-        <h6 class="">Users</h6>
-        @foreach(var userName in Model.ChatVM.UserNames)
-        {
-            <div class="user-bar offline-user @userName">
-                <i class="material-icons prefix">face</i>
-                @userName
+        <div class="room-users">
+            <h6 class="">Users</h6>
+            @foreach (var userName in Model.ChatVM.UserNames)
+            {
+                <div class="user-bar offline-user @userName">
+                    <i class="material-icons prefix">face</i>
+                    @userName
+                </div>
+            }
+        </div>
+        <div class="invite-users">
+            <div class="row">
+                <div class="input-field">
+                    <i class="material-icons prefix">face</i>
+                    <input type="text" id="autocomplete-input" class="autocomplete">
+                    <label for="autocomplete-input">Add more users</label>
+                </div>
             </div>
-        }
+        </div>
     </div>
 </div>
 
@@ -67,7 +78,7 @@
         for (let activeUser of activeUsers) {
             document.querySelector(`.${activeUser}`).classList.remove("offline-user");
         }
-     
+
     });
 
     connection.on("LeftRoom", function (userWhoLeft) {
@@ -106,5 +117,48 @@
         let conentChange = function (event) {
             content = event.target.value;
         }
+
+
+        /******************************************************/
+        let options = {
+            data: {
+            },
+            onAutocomplete: function (invitedUser) {
+                let userBar = document.createElement("div");
+                userBar.className = `user-bar offline-user ${invitedUser}`;
+                userBar.innerHTML = `<i class="material-icons prefix">face</i> ${invitedUser}`;
+                document.querySelector(".room-users").appendChild(userBar);
+
+                fetch("/Chat/AddUserToRoom", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        RoomId: @Model.ChatVM.RoomId,
+                        UserName: invitedUser
+                    })
+                })
+                .then(resp => {
+                    if (resp.ok) {
+                        console.log("added user to room successfully");
+                    }
+                })
+                .catch(err => console.log(err));
+
+                delete options.data[invitedUser];
+            }
+        };
+
+        for (let item of @Html.Raw(@Json.Serialize(Model.UsersNamesPossibleToInvite))) {
+            console.log(item);
+            options.data[item] = null;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.autocomplete');
+            var instances = M.Autocomplete.init(elems, options);
+        });
+
     </script>
 }

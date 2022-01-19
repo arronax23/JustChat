@@ -26,8 +26,7 @@ namespace JustChat.Pages.Chat
         private readonly UserManager<User> _userManager;
 
         public ChatVM ChatVM { get; set; }
-        //[BindProperty]
-        //public MessageVM MessageVM { get; set; }
+        public IEnumerable<string> UsersNamesPossibleToInvite { get; set; }
 
         public ChatModel(AppDbContext appDbContext, UserManager<User> userManager)
         {
@@ -47,6 +46,8 @@ namespace JustChat.Pages.Chat
             ChatVM.Messages = _appDbContext.Messages.Include(m => m.Author).Where(m => m.RoomId == roomId);
 
             ChatVM.UserNames = _appDbContext.Users.Include(u => u.Rooms).Where(u => u.Rooms.Contains(room)).Select(u => u.UserName);
+
+            UsersNamesPossibleToInvite = _appDbContext.Users.Where(u => !u.Rooms.Contains(room)).Select(u => u.UserName);
         }
 
         //public async Task<IActionResult> OnPostAsync([FromServices] IHubContext<ChatHub> hubContext)
