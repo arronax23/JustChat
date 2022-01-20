@@ -19,10 +19,13 @@ namespace JustChat.Pages.Chat
         }
 
         public IEnumerable<string> AllUsersNames { get; set; }
+        public string CurrentUserName { get; set; }
 
         public void OnGet()
         {
             AllUsersNames = _chatRepository.GetAllUsersUserNames();
+            CurrentUserName = _chatRepository.GetCurrentUserName(User);
         }
+
     }
 }

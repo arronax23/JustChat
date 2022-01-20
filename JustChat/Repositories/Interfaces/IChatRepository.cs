@@ -13,5 +13,7 @@ namespace JustChat.Repositories.Inrefaces
         IEnumerable<User> GetAllUsers();
         IEnumerable<string> GetAllUsersUserNames();
         ChatVM GetChatViewModel(int roomId, ClaimsPrincipal user);
+        User GetCurrentUser(ClaimsPrincipal user);
+        string GetCurrentUserName(ClaimsPrincipal user);
     }
 }

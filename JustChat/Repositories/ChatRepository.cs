@@ -28,6 +28,16 @@ namespace JustChat.Repositories
         public IEnumerable<string> GetAllUsersUserNames()
         {
             return GetAllUsers().Select(u => u.UserName);
+
+        }
+
+        public User GetCurrentUser(ClaimsPrincipal user)
+        {
+            return _appDbContext.Users.FirstOrDefault(u => u.UserName == user.Identity.Name);
+        }
+        public string GetCurrentUserName(ClaimsPrincipal user)
+        {
+            return GetCurrentUser(user).UserName;
         }
 
         public ChatVM GetChatViewModel(int roomId, ClaimsPrincipal user)
@@ -37,8 +47,8 @@ namespace JustChat.Repositories
             var chatVM = new ChatVM()
             {
                 RoomId = roomId,
-                AuthorId = _appDbContext.Users.FirstOrDefault(u => u.UserName == user.Identity.Name).Id,
-                CurrentUserName = _appDbContext.Users.FirstOrDefault(u => u.UserName == user.Identity.Name).UserName,
+                AuthorId = GetCurrentUser(user).Id,
+                CurrentUserName = GetCurrentUserName(user),
                 RoomName = room.Name,
                 Messages = _appDbContext.Messages.Include(m => m.Author).Where(m => m.RoomId == roomId),
                 UserNamesInvitedToRoom = _appDbContext.Users.Include(u => u.Rooms).Where(u => u.Rooms.Contains(room)).Select(u => u.UserName),

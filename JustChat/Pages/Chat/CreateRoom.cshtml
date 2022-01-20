@@ -34,7 +34,8 @@
 
 @section Scripts {
     <script>
-            let invitedUsersList = [];
+        let invitedUsersList = [];
+            invitedUsersList.push('@Model.CurrentUserName');
 
             let newRoomVM = {
                 roomName: "",
@@ -83,7 +84,11 @@
                     },
                     body: JSON.stringify(newRoomVM)
                 })
-                .then(response => console.log(response))
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href="/Chat/RoomCreated"
+                        }
+                })
                 .catch(err => console.log(err))
             }
 
