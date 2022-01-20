@@ -16,7 +16,6 @@ namespace JustChat.Database
 
         public DbSet<Message> Messages { get; set; }
         public DbSet<Room> Rooms { get; set; }
-        public DbSet<RoomUser> RoomUser { get; set; }
         public DbSet<ActiveRoomUser> ActiveRoomUsers { get; set; }
     }
 }
