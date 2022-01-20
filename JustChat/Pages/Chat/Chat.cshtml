@@ -33,7 +33,7 @@
     <div class="users-container center-align">
         <div class="room-users">
             <h6 class="">Users</h6>
-            @foreach (var userName in Model.ChatVM.UserNames)
+            @foreach (var userName in Model.ChatVM.UserNamesInvitedToRoom)
             {
                 <div class="user-bar offline-user @userName">
                     <i class="material-icons prefix">face</i>
@@ -148,7 +148,7 @@
             }
         };
 
-        for (let item of @Html.Raw(@Json.Serialize(Model.UsersNamesPossibleToInvite))) {
+        for (let item of @Html.Raw(@Json.Serialize(Model.ChatVM.UsersNamesPossibleToInvite))) {
             console.log(item);
             options.data[item] = null;
         }

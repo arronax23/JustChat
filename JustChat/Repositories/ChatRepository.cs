@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace JustChat.Repositories
@@ -18,10 +19,36 @@ namespace JustChat.Repositories
         {
             _appDbContext = appDbContext;
         }
-        public void SaveMessage(Message message)
+
+        public IEnumerable<User> GetAllUsers()
         {
-            //_appDbContext.Mess
+            return _appDbContext.Users;
         }
+
+        public IEnumerable<string> GetAllUsersUserNames()
+        {
+            return GetAllUsers().Select(u => u.UserName);
+        }
+
+        public ChatVM GetChatViewModel(int roomId, ClaimsPrincipal user)
+        {
+            Room room = _appDbContext.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+
+            var chatVM = new ChatVM()
+            {
+                RoomId = roomId,
+                AuthorId = _appDbContext.Users.FirstOrDefault(u => u.UserName == user.Identity.Name).Id,
+                CurrentUserName = _appDbContext.Users.FirstOrDefault(u => u.UserName == user.Identity.Name).UserName,
+                RoomName = room.Name,
+                Messages = _appDbContext.Messages.Include(m => m.Author).Where(m => m.RoomId == roomId),
+                UserNamesInvitedToRoom = _appDbContext.Users.Include(u => u.Rooms).Where(u => u.Rooms.Contains(room)).Select(u => u.UserName),
+                UsersNamesPossibleToInvite = _appDbContext.Users.Where(u => !u.Rooms.Contains(room)).Select(u => u.UserName)
+            };
+
+            return chatVM;
+        }
+
+
         public async Task<bool> CreateRoom(NewRoomVM newRoomVM)
         {
             var newRoom = new Room()
@@ -44,11 +71,6 @@ namespace JustChat.Repositories
 
             var isModified = await _appDbContext.SaveChangesAsync() > 0;
             return isModified;
-        }
-
-        public IEnumerable<User> GetAllUsers()
-        {
-            return _appDbContext.Users;
         }
     }
 }
