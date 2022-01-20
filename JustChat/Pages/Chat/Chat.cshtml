@@ -18,19 +18,15 @@
         </div>
 
         <div>
-            <form method="post" onsubmit="onSubmit(event)">
+            <form onsubmit="onSubmit(event)">
                 <div>
                     <input id="content-input" name="content" onchange="conentChange(event)" />
                 </div>
                 <div>
                     <button id="sendButton" class="btn waves-effect waves-light" type="submit">
-                        Submit@*<i class="material-icons right">send</i>*@
+                        Submit<i class="material-icons right">send</i>
                     </button>
                 </div>
-                @*<input name="authorId" value="@Model.ChatVM.AuthorId" class="hide" />
-                <input name="roomdId" value="@Model.ChatVM.RoomId" class="hide" />
-                <input name="roomName" value="@Model.ChatVM.RoomName" class="hide" />
-                <input name="userName" value="@Model.ChatVM.UserName" class="hide" />*@
             </form>
         </div>
     </div>
@@ -70,6 +66,7 @@
         let time = new Date(message.timeStamp).toLocaleString();
         div.innerHTML = `<span>${message.userName}: </span><span>${message.content} </span><span class="time-span">${time}</span>`;
         chatContent.appendChild(div);
+        chatContent.scrollTop = chatContent.scrollHeight;
 
     });
 

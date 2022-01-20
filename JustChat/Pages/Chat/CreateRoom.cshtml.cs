@@ -25,9 +25,5 @@ namespace JustChat.Pages.Chat
         {
             AllUsersNames = _chatRepository.GetAllUsers().Select(u => u.UserName);
         }
-        //public IActionResult OnPostAsync()
-        //{
-        //    return Page();
-        //}
     }
 }
