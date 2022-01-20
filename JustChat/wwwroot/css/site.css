@@ -101,3 +101,7 @@ a.disabled {
 .time-span {
     float: right;
 }
+
+.created-room-name{
+    font-weight: bold;
+}

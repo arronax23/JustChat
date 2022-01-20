@@ -25,7 +25,7 @@ namespace JustChat.Api
             var isCreated = await _chatRepository.CreateRoom(newRoomVM);
 
             if (isCreated)
-                return Ok();
+                return Ok(newRoomVM.RoomName);
             else
                 return BadRequest();
         }

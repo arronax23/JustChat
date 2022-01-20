@@ -71,23 +71,22 @@
                 options.data[item] = null;
             }
 
-            let onSubmit = function (event) {
-                event.preventDefault();
+        let onSubmit = function (event) {
+            event.preventDefault();
 
-                let roomNameInput = document.querySelector("#roomName");
-                newRoomVM.roomName = roomNameInput.value;
+            let roomNameInput = document.querySelector("#roomName");
+            newRoomVM.roomName = roomNameInput.value;
 
-                fetch("/Chat/CreateRoom", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(newRoomVM)
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.href="/Chat/RoomCreated"
-                        }
+            fetch("/Chat/CreateRoom", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newRoomVM)
+            })
+                .then(response => response.text())
+                .then(createdRoomName => {
+                    window.location.href = `/Chat/RoomCreated?roomName=${createdRoomName}`
                 })
                 .catch(err => console.log(err))
             }

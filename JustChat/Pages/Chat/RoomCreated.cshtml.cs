@@ -9,8 +9,10 @@ namespace JustChat.Pages.Chat
 {
     public class RoomCreatedModel : PageModel
     {
-        public void OnGet()
+        public string CreatedRoomName { get; set; }
+        public void OnGet(string roomName)
         {
+            CreatedRoomName = roomName;
         }
     }
 }
