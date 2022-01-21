@@ -28,6 +28,7 @@
                     </button>
                 </div>
             </form>
+            <button id="emoji-btn">Pick emoji</button>
         </div>
     </div>
     <div class="users-container center-align">
@@ -115,6 +116,7 @@
         let roomName = '@Model.ChatVM.RoomName';
 
         let conentChange = function (event) {
+            console.log(event.target.value);
             content = event.target.value;
         }
 
@@ -160,5 +162,13 @@
             var instances = M.Autocomplete.init(elems, options);
         });
 
+    </script>
+    <script>
+        let instance = new emojiButtonList("emoji-btn", {
+            dropDownXAlign: "left",
+            textBoxID: "content-input",
+            yAlignMargin: 10,
+            xAlignMargin: 10
+        });
     </script>
 }
