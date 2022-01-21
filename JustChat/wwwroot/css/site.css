@@ -69,10 +69,7 @@ a.disabled {
     display: flex;
     flex-direction: row;
 }
-/*
-.login-form-container {
-    text-align: center;
-}*/
+
 
 .logout-form {
     display: inline-block;
@@ -104,4 +101,9 @@ a.disabled {
 
 .created-room-name{
     font-weight: bold;
+}
+
+.login-error-message {
+    margin-top: 1rem;
+    color: red;
 }
