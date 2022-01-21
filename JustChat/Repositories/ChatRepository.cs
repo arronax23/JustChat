@@ -50,7 +50,7 @@ namespace JustChat.Repositories
                 AuthorId = GetCurrentUser(user).Id,
                 CurrentUserName = GetCurrentUserName(user),
                 RoomName = room.Name,
-                Messages = _appDbContext.Messages.Include(m => m.Author).Where(m => m.RoomId == roomId),
+                Messages = _appDbContext.Messages.Include(m => m.Author).Where(m => m.RoomId == roomId).OrderBy(m => m.TimeStamp),
                 UserNamesInvitedToRoom = _appDbContext.Users.Include(u => u.Rooms).Where(u => u.Rooms.Contains(room)).Select(u => u.UserName),
                 UsersNamesPossibleToInvite = _appDbContext.Users.Where(u => !u.Rooms.Contains(room)).Select(u => u.UserName)
             };
