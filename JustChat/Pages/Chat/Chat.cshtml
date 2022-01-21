@@ -17,18 +17,20 @@
             }
         </div>
 
-        <div>
-            <form onsubmit="onSubmit(event)">
-                <div>
-                    <input id="content-input" name="content" onchange="conentChange(event)" />
-                </div>
-                <div>
-                    <button id="sendButton" class="btn waves-effect waves-light" type="submit">
-                        Submit<i class="material-icons right">send</i>
-                    </button>
-                </div>
-            </form>
-            <button id="emoji-btn">Pick emoji</button>
+        <div class="chat-form">
+            <div class="form">
+                <form onsubmit="onSubmit(event)">
+                    <div>
+                        <input id="content-input" name="content" onchange="conentChange(event)" />
+                    </div>
+                    <div>
+                        <button id="sendButton" class="btn waves-effect waves-light" type="submit">
+                            Submit<i class="material-icons right">send</i>
+                        </button>
+                        <button type="button" class="waves-effect pink darken-4 btn" id="emoji-btn">Pick emoji</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class="users-container center-align">
@@ -96,7 +98,7 @@
 
         let onSubmit = function (event) {
             event.preventDefault();
-            console.log(event.target);
+/*            console.log(event.target);*/
             document.querySelector("#content-input").value = '';
             connection.invoke('SendRoomMessage',
                 content,
@@ -162,13 +164,19 @@
             var instances = M.Autocomplete.init(elems, options);
         });
 
-    </script>
-    <script>
+        let emojiPicked = function (emoji) {
+            let contentInput = document.querySelector('#content-input');
+            contentInput.value += emoji;
+            content += emoji;
+        }
+
         let instance = new emojiButtonList("emoji-btn", {
             dropDownXAlign: "left",
             textBoxID: "content-input",
+            onEmojiClick: emojiPicked,
             yAlignMargin: 10,
             xAlignMargin: 10
         });
     </script>
+
 }
