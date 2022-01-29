@@ -59,42 +59,42 @@
 @section Scripts {
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script>
-    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-        document.getElementById("sendButton").disabled = true;
+            document.getElementById("sendButton").disabled = true;
 
-    connection.on("ReceiveMessage", function (message) {
-        let chatContent = document.querySelector(".chat-content");
-        let div = document.createElement("div");
-        let time = new Date(message.timeStamp).toLocaleString();
-        div.innerHTML = `<span>${message.userName}: </span><span>${message.content} </span><span class="time-span">${time}</span>`;
-        chatContent.appendChild(div);
-        chatContent.scrollTop = chatContent.scrollHeight;
+        connection.on("ReceiveMessage", function (message) {
+            let chatContent = document.querySelector(".chat-content");
+            let div = document.createElement("div");
+            let time = new Date(message.timeStamp).toLocaleString();
+            div.innerHTML = `<span>${message.userName}: </span><span>${message.content} </span><span class="time-span">${time}</span>`;
+            chatContent.appendChild(div);
+            chatContent.scrollTop = chatContent.scrollHeight;
 
-    });
+        });
 
-    connection.on("JoinedRoom", function (activeUsers) {
-        console.log(activeUsers);
-        for (let activeUser of activeUsers) {
-            document.querySelector(`.${activeUser}`).classList.remove("offline-user");
-        }
+        connection.on("JoinedRoom", function (activeUsers) {
+            console.log(activeUsers);
+            for (let activeUser of activeUsers) {
+                document.querySelector(`.${activeUser}`).classList.remove("offline-user");
+            }
 
-    });
+        });
 
-    connection.on("LeftRoom", function (userWhoLeft) {
-        document.querySelector(`.${userWhoLeft}`).classList.add("offline-user");
-    });
+        connection.on("LeftRoom", function (userWhoLeft) {
+            document.querySelector(`.${userWhoLeft}`).classList.add("offline-user");
+        });
 
-    connection.start().then(function () {
-        document.getElementById("sendButton").disabled = false;
-        connection.invoke('JoinRoom', '@Model.ChatVM.RoomName', '@Model.ChatVM.CurrentUserName');
-    }).catch(function (err) {
-        return console.log(err.toString());
-    });
+        connection.start().then(function () {
+            document.getElementById("sendButton").disabled = false;
+            connection.invoke('JoinRoom', '@Model.ChatVM.RoomName', '@Model.ChatVM.CurrentUserName');
+        }).catch(function (err) {
+            return console.log(err.toString());
+        });
 
-        window.addEventListener('beforeunload', function () {
-        connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName','@Model.ChatVM.CurrentUserName');
-    });
+            window.addEventListener('beforeunload', function () {
+            connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName','@Model.ChatVM.CurrentUserName');
+        });
 
         let onSubmit = function (event) {
             event.preventDefault();
@@ -159,11 +159,6 @@
             options.data[item] = null;
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.autocomplete');
-            var instances = M.Autocomplete.init(elems, options);
-        });
-
         let emojiPicked = function (emoji) {
             let contentInput = document.querySelector('#content-input');
             contentInput.value += emoji;
@@ -178,5 +173,6 @@
             xAlignMargin: 10
         });
     </script>
-
+    <script src="~/js/autocompleteInitialization.js"></script>
+    <script>autocompleteInitialization(options)</script>
 }

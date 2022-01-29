@@ -37,39 +37,39 @@
         let invitedUsersList = [];
             invitedUsersList.push('@Model.CurrentUserName');
 
-            let newRoomVM = {
-                roomName: "",
-                invitedUsersNames: invitedUsersList
-            };
+        let newRoomVM = {
+            roomName: "",
+            invitedUsersNames: invitedUsersList
+        };
 
-            let options = {
-                data: {
-                },
-                onAutocomplete: function (invitedUser) {
-                    delete options.data[invitedUser];
-                    invitedUsersList.push(invitedUser);
-                    let invitedUserDiv = document.createElement("div");
-                    invitedUserDiv.innerHTML = `<i class="material-icons prefix">face</i>${invitedUser}`;
-                    invitedUserDiv.className = `invited-user ${invitedUser}`;
-                    let deleteIcon = document.createElement("i");
-                    deleteIcon.className = "material-icons prefix delete";
-                    deleteIcon.innerHTML = "delete";
-                    invitedUserDiv.appendChild(deleteIcon);
-                    document.querySelector(".invited-users").appendChild(invitedUserDiv);
+        let options = {
+            data: {
+            },
+            onAutocomplete: function (invitedUser) {
+                delete options.data[invitedUser];
+                invitedUsersList.push(invitedUser);
+                let invitedUserDiv = document.createElement("div");
+                invitedUserDiv.innerHTML = `<i class="material-icons prefix">face</i>${invitedUser}`;
+                invitedUserDiv.className = `invited-user ${invitedUser}`;
+                let deleteIcon = document.createElement("i");
+                deleteIcon.className = "material-icons prefix delete";
+                deleteIcon.innerHTML = "delete";
+                invitedUserDiv.appendChild(deleteIcon);
+                document.querySelector(".invited-users").appendChild(invitedUserDiv);
 
-                    deleteIcon.onclick = function () {
-                        document.querySelector(`.${invitedUser}`).remove();
-                        options.data[invitedUser] = null;
-                    }
+                deleteIcon.onclick = function () {
+                    document.querySelector(`.${invitedUser}`).remove();
+                    options.data[invitedUser] = null;
                 }
-            };
-
-            @*console.log(@Html.Raw(@Json.Serialize(Model.AllUserNames)));*@
-
-            for (let item of @Html.Raw(@Json.Serialize(Model.AllUsersNames))) {
-            /*console.log(item);*/
-                options.data[item] = null;
             }
+        };
+
+        @*console.log(@Html.Raw(@Json.Serialize(Model.AllUserNames)));*@
+
+        for (let item of @Html.Raw(@Json.Serialize(Model.AllUsersNames))) {
+        /*console.log(item);*/
+            options.data[item] = null;
+        }
 
         let onSubmit = function (event) {
             event.preventDefault();
@@ -84,17 +84,15 @@
                 },
                 body: JSON.stringify(newRoomVM)
             })
-                .then(response => response.text())
-                .then(createdRoomName => {
-                    window.location.href = `/Chat/RoomCreated?roomName=${createdRoomName}`
-                })
-                .catch(err => console.log(err))
-            }
+            .then(response => response.text())
+            .then(createdRoomName => {
+                window.location.href = `/Chat/RoomCreated?roomName=${createdRoomName}`
+            })
+            .catch(err => console.log(err))
+        }
 
 
-            document.addEventListener('DOMContentLoaded', function () {
-                var elems = document.querySelectorAll('.autocomplete');
-                var instances = M.Autocomplete.init(elems, options);
-            });
     </script>
+    <script src="~/js/autocompleteInitialization.js"></script>
+    <script>autocompleteInitialization(options)</script>
 }
