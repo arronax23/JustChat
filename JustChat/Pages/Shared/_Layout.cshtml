@@ -22,6 +22,9 @@
     <meta charset="utf-16" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] JustChat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;700&family=Comfortaa:wght@400;700&family=Domine:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="~/lib/emojiButtonList/src/emojibuttonlistjs.css" />
@@ -30,7 +33,7 @@
 </head>
 <body>
     <header>
-        <nav>
+        <nav class="nav-extended">
             <div class="nav-wrapper">
                 <a href="/" class="brand-logo">JustChat</a>
                 @if (SignInManager.IsSignedIn(User))
@@ -38,6 +41,7 @@
                     <ul id="nav-mobile" class="right">
                         <li><a class="disabled username"><i class="material-icons prefix">face</i>@currentUser.UserName</a></li>
                         <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
+                        <li><a asp-page="/Chat/AnonymousChat" class="waves-effect blue darken-4 btn anonymous-chat-btn">Anonymous chat</a></li>
                         <li><a asp-page="/Authentication/Logout"><i class="material-icons right">logout</i>Logout</a></li>
                     </ul>
                     <ul id='dropdown1' class='dropdown-content'>
@@ -68,9 +72,9 @@
         @RenderBody()
     </main>
 
-    <footer class="page-footer">
-        <div>Created by Wiktor Zielak</div>
-    </footer>
+    <address class="page-address">
+        Created by Wiktor Zielak
+    </address>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

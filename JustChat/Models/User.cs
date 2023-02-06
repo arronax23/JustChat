@@ -10,5 +10,6 @@ namespace JustChat.Models
     {
         public ICollection<Room> Rooms { get; set; }
         public ICollection<Message> Messages { get; set; }
+        public AnonymousConnection AnonymousConnection { get; set; }
     }
 }

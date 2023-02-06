@@ -1,0 +1,160 @@
+﻿@page
+@model JustChat.Pages.Chat.AnonymousChatModel
+@{
+}
+
+
+<div class="spinner">
+    <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div><div class="gap-patch">
+                <div class="circle"></div>
+            </div><div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p>Searching for people...</p>
+    </div>
+</div>
+
+
+
+<div class="anonymous-chat-container display-none">
+    <h3 class="center-align">Anonymous Chat</h3>
+    <div class="chat-content">
+    </div>
+
+    <div class="chat-form">
+        <div class="form">
+            <form onsubmit="onSubmit(event)">
+                <div>
+                    <input id="content-input" name="content" onchange="conentChange(event)" />
+                </div>
+                <div>
+                    <button id="sendButton" class="btn waves-effect waves-light" type="submit">
+                        Submit<i class="material-icons right">send</i>
+                    </button>
+                    <button type="button" class="waves-effect pink darken-4 btn" id="emoji-btn">Pick emoji</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        let groupName = '';
+        let interval = null;
+        let content = '';
+
+        let spinner = document.querySelector('.spinner');
+        let chatContainer = document.querySelector('.anonymous-chat-container');
+        let chatContent = document.querySelector('.chat-content');
+
+        connection.start().then(function () {
+            interval = setInterval(function () {
+                connection.invoke('PairAnonymousUsers', '@Model.CurrentUsername');
+                console.log('hi');
+            }, 1000);
+
+            console.log('hey');
+        })
+        .catch(function (err) {
+            return console.log(err.toString());
+        });
+
+        window.addEventListener('beforeunload', function () {
+            clearInterval(interval);
+            if (groupName !== "") {
+                connection.invoke('LeaveAnonymousGroup', groupName, '@Model.CurrentUsername');
+            }
+            else {
+                connection.invoke('LeaveLobby', '@Model.CurrentUsername');
+            }
+
+            showSpinner();
+        });
+
+        connection.on("ReceiveGroupName", function (group) {
+            console.log(group);
+            groupName = group;
+
+            clearInterval(interval);
+
+            hideSpinner();
+        });
+
+        connection.on("StrangerLeftConversation", function () {
+            console.log("Stranger has left the conversation");
+            connection.invoke('LeaveAnonymousGroupShortened', groupName);
+            chatContent.innerHTML = '';
+
+            interval = setInterval(function () {
+                connection.invoke('PairAnonymousUsers', '@Model.CurrentUsername');
+                console.log('hi');
+            }, 1000);
+
+            showSpinner();
+        });
+
+        let onSubmit = function (event) {
+            event.preventDefault();
+            /*            console.log(event.target);*/
+            document.querySelector("#content-input").value = '';
+            connection.invoke('SendAnonymousMessage',
+                content,
+                '@Model.CurrentUsername',
+                groupName,
+            );
+
+            content = '';
+        }
+
+        let conentChange = function (event) {
+            console.log(event.target.value);
+            content = event.target.value;
+        }
+
+        connection.on("ReceiveAnonymousMessage", function (message) {
+            let chatContent = document.querySelector(".chat-content");
+            let div = document.createElement("div");
+            let time = new Date(message.timeStamp).toLocaleString();
+            let sender = message.userName === '@Model.CurrentUsername' ? 'You' : 'Stranger';
+            div.innerHTML = `<span>${sender}: </span><span>${message.content} </span><span class="time-span">${time}</span>`;
+            chatContent.appendChild(div);
+            chatContent.scrollTop = chatContent.scrollHeight;
+
+        });
+
+        let emojiPicked = function (emoji) {
+            let contentInput = document.querySelector('#content-input');
+            contentInput.value += emoji;
+            content += emoji;
+        }
+
+        let instance = new emojiButtonList("emoji-btn", {
+            dropDownXAlign: "left",
+            textBoxID: "content-input",
+            onEmojiClick: emojiPicked,
+            yAlignMargin: 10,
+            xAlignMargin: 10
+        });
+
+        let showSpinner = function () {
+            spinner.classList.remove('display-none');
+            chatContainer.classList.add('display-none');
+        }
+
+        let hideSpinner = function () {
+            spinner.classList.add('display-none');
+            chatContainer.classList.remove('display-none');
+        }
+
+    </script>
+}

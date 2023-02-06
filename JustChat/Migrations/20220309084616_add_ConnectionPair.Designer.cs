@@ -4,14 +4,16 @@ using JustChat.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JustChat.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220309084616_add_ConnectionPair")]
+    partial class add_ConnectionPair
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,29 +41,25 @@ namespace JustChat.Migrations
                     b.ToTable("ActiveRoomUsers");
                 });
 
-            modelBuilder.Entity("JustChat.Models.AnonymousConnection", b =>
+            modelBuilder.Entity("JustChat.Models.ConnectionPair", b =>
                 {
-                    b.Property<int>("AnonymousConnectionId")
+                    b.Property<int>("ConnectionPairId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Group")
+                    b.Property<string>("ConnectionId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ConnectionIdPaired")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsPaired")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("ConnectionPairId");
 
-                    b.HasKey("AnonymousConnectionId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("AnonymousConnections");
+                    b.ToTable("ConnectionPairs");
                 });
 
             modelBuilder.Entity("JustChat.Models.Message", b =>
@@ -329,15 +327,6 @@ namespace JustChat.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("JustChat.Models.AnonymousConnection", b =>
-                {
-                    b.HasOne("JustChat.Models.User", "User")
-                        .WithOne("AnonymousConnection")
-                        .HasForeignKey("JustChat.Models.AnonymousConnection", "UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("JustChat.Models.Message", b =>
                 {
                     b.HasOne("JustChat.Models.User", "Author")
@@ -430,8 +419,6 @@ namespace JustChat.Migrations
 
             modelBuilder.Entity("JustChat.Models.User", b =>
                 {
-                    b.Navigation("AnonymousConnection");
-
                     b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618

@@ -9,9 +9,9 @@
         <div class="chat-content">
             @foreach (var message in Model.ChatVM?.Messages)
             {
-                <div>
+                <div class="message">
                     <span>@message.Author.UserName: </span>
-                    <span>@message.Content </span>
+                    <span class="message-content">&nbsp;@message.Content </span>
                     <span class="time-span">@message.TimeStamp.ToString("dd.MM.yyyy, HH:mm:ss")</span>
                 </div>
             }
@@ -67,7 +67,8 @@
             let chatContent = document.querySelector(".chat-content");
             let div = document.createElement("div");
             let time = new Date(message.timeStamp).toLocaleString();
-            div.innerHTML = `<span>${message.userName}: </span><span>${message.content} </span><span class="time-span">${time}</span>`;
+            div.innerHTML = `<span>${message.userName}: </span><span class="message-content">&nbsp;${message.content} </span><span class="time-span">${time}</span>`;
+            div.classList.add("message");
             chatContent.appendChild(div);
             chatContent.scrollTop = chatContent.scrollHeight;
 
@@ -92,7 +93,7 @@
             return console.log(err.toString());
         });
 
-            window.addEventListener('beforeunload', function () {
+        window.addEventListener('beforeunload', function () {
             connection.invoke('LeaveRoom', '@Model.ChatVM.RoomName','@Model.ChatVM.CurrentUserName');
         });
 
