@@ -23,22 +23,80 @@ p, span, .room-users {
     /*font-family: 'Domine', serif;*/
     font-family: 'Comfortaa', cursive;
 }
-.brand-logo, .chat-container h3 {
+.logo, .chat-container h3 {
     font-family: 'Comfortaa', cursive;
     font-weight: 700;
 }
 
-.brand-logo{
+.logo{
+    font-size: 2rem;
+    color: white;
     margin-left: 1rem;
 }
 
-.nav-extended {
+.username {
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.auth-btn {
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
     background: #061826;
+    position: relative;
+}
+
+.auth-btn::after {
+    position: absolute;
+    top: 26px;
+    content: "";
+    background: white;
+    height: 2px;
+    width: 0;
+    transition: width .25s;
+}
+
+.auth-btn:hover::after {
+    width: 100%;
+}
+
+.logout {
+    margin-right: 1rem;
+}
+
+
+.span-logout {
+    margin-right: .5rem;
+}
+
+.nav {
+    background: #061826;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.nav .nav-list {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
 
 .anonymous-chat-btn {
-    background: #061826 !important;
+    background: #26c6da;
+}
+
+.anonymous-chat-btn:hover {
+    background: #80deea;
+}
+
+#emoji-btn:hover {
+    background: #c2185b !important;
 }
 
 .page-address {

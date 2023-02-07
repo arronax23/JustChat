@@ -34,16 +34,15 @@
 </head>
 <body>
     <header>
-        <nav class="nav-extended">
-            <div class="nav-wrapper">
-                <a href="/" class="brand-logo">JustChat</a>
+            <div class="nav">
+                <a href="/" class="logo">JustChat</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <ul id="nav-mobile" class="right">
-                        <li><a class="disabled username"><i class="material-icons prefix">face</i>@currentUser.UserName</a></li>
-                        <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
-                        <li><a asp-page="/Chat/AnonymousChat" class="waves-effect blue darken-4 btn anonymous-chat-btn">Anonymous chat</a></li>
-                        <li><a asp-page="/Authentication/Logout"><i class="material-icons right">logout</i>Logout</a></li>
+                    <ul class="nav-list">
+                    <li><a class="username"><i class="material-icons prefix">face</i><span>@currentUser.UserName</span></a></li>
+                    <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
+                    <li><a asp-page="/Chat/AnonymousChat" class="btn anonymous-chat-btn">Anonymous chat</a></li>
+                    <li><a asp-page="/Authentication/Logout" class="logout auth-btn"><span class="span-logout">Logout</span><i class="material-icons">logout</i></a></li>
                     </ul>
                     <ul id='dropdown1' class='dropdown-content'>
                         <li><a asp-page="/Chat/Chat" asp-route-roomId="1">Main Room</a></li>
@@ -61,13 +60,12 @@
                 }
                 else
                 {
-                    <ul id="nav-mobile" class="right">
-                        <li><a asp-page="/Authentication/Register">Register</a></li>
-                        <li><a asp-page="/Authentication/Login">Login</a></li>
+                <ul class="nav-list">
+                        <li><a asp-page="/Authentication/Register" class="auth-btn">Register</a></li>
+                    <li><a asp-page="/Authentication/Login" class="auth-btn">Login</a></li>
                     </ul>
                 }
             </div>
-        </nav>
     </header>
     <main>
         @RenderBody()
