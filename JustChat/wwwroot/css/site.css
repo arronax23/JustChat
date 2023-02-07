@@ -1,4 +1,14 @@
-﻿html {
+﻿body {
+    height: 100vh;
+}
+
+main {
+    /* 64px => nav*/
+    /* 18px => address*/
+    height: calc(100% - 64px - 18px);
+}
+
+html {
     font-family: 'Comfortaa', cursive;
 }
 
@@ -47,39 +57,45 @@ p, span, .room-users {
     box-shadow: 0 -2px 2px 0 rgb(0 0 0 / 14%), 0 -3px 1px -2px rgb(0 0 0 / 12%), 0 -1px 5px 0 rgb(0 0 0 / 20%);
 }
 
-.chat-page{
-    display: flex;
-    flex-direction: row;
-}
-
-.chat-content {
-    height: 60vh;
-    word-wrap: break-word;
-    overflow: auto;
-}
-
-
-
-.message-content {
-    font-weight: 700;
+.chat-page {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-areas: 
+    'header header blank'
+    'one one two'
+    'three three four';
 }
 
 
-.message:nth-child(even) {
-    background: #A8C69F;
+.chat-header {
+    grid-area: header;
+    text-align: center;
+    margin: 0;
+    height: auto;
+    align-self: center;
+    margin: 0 3rem;
 }
 
-.message:nth-child(odd) {
-    background: #CCE2A3;
+.chat-container {
+    grid-area: one;
+    height: 65vh;
+    margin: 0 3rem;
 }
 
 .users-container {
-    width: 25vw;
-    margin: 3rem;
-    margin-bottom: 0;
+    grid-area: two;
+    height: 65vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: 0 3rem;
+}
+
+.chat-content {
+    height: 100%;
+    word-wrap: break-word;
+    overflow: auto;
 }
 
 .room-users {
@@ -89,18 +105,43 @@ p, span, .room-users {
     overflow: auto;
 }
 
+.chat-form {
+    grid-area: three;
+    margin-right: 50px;
+    margin: 0 3rem;
+}
+
+.invite-users {
+    grid-area: four;
+    margin: 0 3rem;
+}
+
+.invite-users .input-field {
+    margin: 0;
+}
+
+/*.invite-users .input-field input {
+    margin: 0;
+}*/
+
+
+.message-content {
+    font-weight: 700;
+}
+
+.message:nth-child(even) {
+    background: #A8C69F;
+}
+
+.message:nth-child(odd) {
+    background: #CCE2A3;
+}
+
 .room-users h6 {
     font-weight: bold;
 }
 
-invite-users {
-  /*  align-self: flex-end;*/
-}
 
-.chat-container {
-    width: 70vw;
-    margin-left: 1rem;
-}
 
 .anonymous-chat-container {
     width: 70vw;

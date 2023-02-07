@@ -4,8 +4,8 @@
 }
 
 <div class="chat-page">
+    <h3 class="chat-header">@Model.ChatVM.RoomName</h3>
     <div class="chat-container">
-        <h3 class="center-align">@Model.ChatVM.RoomName</h3>
         <div class="chat-content">
             @foreach (var message in Model.ChatVM?.Messages)
             {
@@ -16,21 +16,20 @@
                 </div>
             }
         </div>
-
-        <div class="chat-form">
-            <div class="form">
-                <form onsubmit="onSubmit(event)">
-                    <div>
-                        <input id="content-input" name="content" onchange="conentChange(event)" />
-                    </div>
-                    <div>
-                        <button id="sendButton" class="btn waves-effect waves-light" type="submit">
-                            Submit<i class="material-icons right">send</i>
-                        </button>
-                        <button type="button" class="waves-effect pink darken-4 btn" id="emoji-btn">Pick emoji</button>
-                    </div>
-                </form>
-            </div>
+    </div>
+    <div class="chat-form">
+        <div class="form">
+            <form onsubmit="onSubmit(event)">
+                <div>
+                    <input id="content-input" name="content" onchange="conentChange(event)" />
+                </div>
+                <div>
+                    <button id="sendButton" class="btn waves-effect waves-light" type="submit">
+                        Submit<i class="material-icons right">send</i>
+                    </button>
+                    <button type="button" class="waves-effect pink darken-4 btn" id="emoji-btn">Pick emoji</button>
+                </div>
+            </form>
         </div>
     </div>
     <div class="users-container center-align">
@@ -44,13 +43,13 @@
                 </div>
             }
         </div>
-        <div class="invite-users">
-            <div class="row">
-                <div class="input-field">
-                    <i class="material-icons prefix">face</i>
-                    <input type="text" id="autocomplete-input" class="autocomplete">
-                    <label for="autocomplete-input">Add more users</label>
-                </div>
+    </div>
+    <div class="invite-users">
+        <div class="row">
+            <div class="input-field">
+                <i class="material-icons prefix">face</i>
+                <input type="text" id="autocomplete-input" class="autocomplete">
+                <label for="autocomplete-input">Add more users</label>
             </div>
         </div>
     </div>
