@@ -70,6 +70,7 @@ p, span, .room-users {
 
 .chat-header {
     grid-area: header;
+    font-weight: 700;
     text-align: center;
     margin: 0;
     height: auto;
@@ -81,6 +82,8 @@ p, span, .room-users {
     grid-area: one;
     height: 65vh;
     margin: 0 3rem;
+    border: 10px solid #061826;
+    border-radius: 5px;
 }
 
 .users-container {
@@ -98,12 +101,6 @@ p, span, .room-users {
     overflow: auto;
 }
 
-.room-users {
-    border: 1px solid black;
-    border-radius: 5px;
-    height: 65vh;
-    overflow: auto;
-}
 
 .chat-form {
     grid-area: three;
@@ -114,6 +111,13 @@ p, span, .room-users {
 .invite-users {
     grid-area: four;
     margin: 0 3rem;
+}
+
+.room-users {
+    border: 10px solid #061826;
+    border-radius: 5px;
+    height: 65vh;
+    overflow: auto;
 }
 
 .invite-users .input-field {
@@ -214,4 +218,28 @@ a.disabled {
 
 .display-none {
     display: none;
+}
+
+::-webkit-scrollbar {
+    background: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+
+::-webkit-scrollbar-button:start {
+    background: url('/arrow-up.svg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+::-webkit-scrollbar-button:end {
+    background: url('/arrow-down.svg');
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
