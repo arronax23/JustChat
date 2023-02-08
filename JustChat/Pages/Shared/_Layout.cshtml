@@ -34,15 +34,35 @@
 </head>
 <body>
     <header>
-            <div class="nav">
+            <div class="nav nav-small">
+                <div class="hamburger">
+                    <div class="bar"> </div>
+                    <div class="bar"> </div>
+                    <div class="bar"> </div>
+                </div>
                 <a href="/" class="logo">JustChat</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <ul class="nav-list">
-                    <li><a class="username"><i class="material-icons prefix">face</i><span>@currentUser.UserName</span></a></li>
-                    <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Find rooms</a></li>
-                    <li><a asp-page="/Chat/AnonymousChat" class="btn anonymous-chat-btn">Anonymous chat</a></li>
-                    <li><a asp-page="/Authentication/Logout" class="logout auth-btn"><span class="span-logout">Logout</span><i class="material-icons">logout</i></a></li>
+                    <li class="nav-item collapse"><a class="username"><i class="material-icons prefix">face</i><span>@currentUser.UserName</span></a></li>
+                    <li class="nav-item collapse mobile-hide"><a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Rooms</a></li>
+                    <li class="nav-item collapse desktop-hide">
+                        <div class="rooms-mobile-nav">
+                            <h4>Rooms</h4>
+                            <a asp-page="/Chat/Chat" asp-route-roomId="1" class="btn">Main Room</a>
+                            @if (userRooms != null)
+                            {
+                                @foreach (var userRoom in userRooms)
+                                {
+                                <a asp-page="/Chat/Chat" asp-route-roomId="@userRoom.RoomId" class="btn">@userRoom.Name</a>
+                                }
+                            }
+                             <a asp-page="/Chat/CreateRoom" class="btn">CREATE ROOM</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item collapse"><a asp-page="/Chat/AnonymousChat" class="btn anonymous-chat-btn">Anonymous chat</a></li>
+                    <li class="nav-item collapse"><span class="auth-btn-span-container"><a asp-page="/Authentication/Logout" class="logout auth-btn"><span class="span-logout">Logout</span><i class="material-icons">logout</i></a></span></li>
                     </ul>
                     <ul id='dropdown1' class='dropdown-content'>
                         <li><a asp-page="/Chat/Chat" asp-route-roomId="1">Main Room</a></li>
@@ -61,8 +81,8 @@
                 else
                 {
                 <ul class="nav-list">
-                        <li><a asp-page="/Authentication/Register" class="auth-btn">Register</a></li>
-                    <li><a asp-page="/Authentication/Login" class="auth-btn">Login</a></li>
+                    <li class="nav-item collapse"><span class="auth-btn-span-container"><a asp-page="/Authentication/Register" class="auth-btn">Register</a></span></li>
+                    <li class="nav-item collapse"><span class="auth-btn-span-container"><a asp-page="/Authentication/Login" class="auth-btn">Login</a></span></li>
                     </ul>
                 }
             </div>
@@ -79,6 +99,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/dropdownInitialization.js"></script>
     <script>dropdownInitialization()</script>
+    <script src="~/js/handleHamburgerBtn.js"></script>
+    <script>handleHamburgerBtn()</script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

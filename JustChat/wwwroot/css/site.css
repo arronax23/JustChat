@@ -1,5 +1,6 @@
 ﻿body {
-    height: 100vh;
+    min-height: 100vh;
+    position: relative;
 }
 
 main {
@@ -51,6 +52,7 @@ p, span, .room-users {
 
 .auth-btn::after {
     position: absolute;
+    left: 0;
     top: 26px;
     content: "";
     background: white;
@@ -80,6 +82,11 @@ p, span, .room-users {
     justify-content: space-between
 }
 
+.hamburger {
+    display: none;
+}
+
+
 .nav .nav-list {
     display: flex;
     gap: 1rem;
@@ -100,14 +107,14 @@ p, span, .room-users {
 }
 
 .page-address {
+    position: absolute;
+    bottom: 0;
     background: #061826;
     font-family: 'Comfortaa', cursive;
     color: white;
     font-style: normal;
     font-size: .8rem;
     font-weight: 400;
-    position: absolute;
-    bottom: 0;
     width: 100%;
     height: 18px;
     text-align: center;
@@ -133,7 +140,8 @@ p, span, .room-users {
     margin: 0;
     height: auto;
     align-self: center;
-    margin: 0 3rem;
+    /*margin: 0 3rem;*/
+    margin: 1rem 3rem 0 3rem;
 }
 
 .chat-container {
@@ -162,13 +170,12 @@ p, span, .room-users {
 
 .chat-form {
     grid-area: three;
-    margin-right: 50px;
-    margin: 0 3rem;
+    margin: 1rem 3rem 0 3rem;
 }
 
 .invite-users {
     grid-area: four;
-    margin: 0 3rem;
+    margin: 1rem 3rem 0 3rem;
 }
 
 .room-users {
@@ -300,4 +307,123 @@ a.disabled {
     background: url('/arrow-down.svg');
     background-repeat: no-repeat;
     background-size: 100%;
+}
+
+.auth-btn-span-container{
+    display: inline-block;
+}
+
+.desktop-hide {
+    display: none;
+}
+
+@media (max-width: 730px) {
+    .btn {
+        height: 32.4px;
+    }
+    .rooms-mobile-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .rooms-mobile-nav h4 {
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+    }
+
+    .mobile-hide {
+        display: none;
+    }
+
+    .desktop-hide {
+        display: block;
+    }
+
+    .nav {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .nav .nav-list {
+        flex-direction: column;
+        gap: unset;
+        background: #061826;
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .nav .nav-list li {
+        text-align: center;
+        width: 100%;
+        border-top: 3px solid white;
+        padding: 10px 0;
+    }
+
+    .username, .logout {
+        justify-content: center;
+    }
+
+    .logo {
+        margin-left: unset;
+    }
+
+    main {
+        height: auto;
+    }
+
+    .hamburger {
+        display: flex;
+        top: 5px;
+        right: 5px;
+        flex-direction: column;
+        justify-content: space-around;
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+    }
+
+    .bar {
+        background: white;
+        height: 5px;
+        border-radius: 2px;
+    }
+
+    .collapse {
+        display: none;
+    }
+
+    .nav-small {
+        height: 3rem;
+    }
+
+    .chat-header {
+        font-size: 1.5rem;
+    }
+
+    .chat-page {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-container {
+        height: 55vh;
+        margin: 1rem 1rem 0 1rem;
+    }
+
+    .users-container {
+        height: 20vh;
+        margin: 1rem 1rem 0 1rem;
+    }
+
+    .chat-form {
+        margin: 0 1rem 1rem 1rem;
+    }
+
+    .invite-users {
+        margin: 1rem;
+    }
 }
