@@ -35,7 +35,8 @@ namespace JustChat
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddPasswordValidator<PasswordValidator<User>>();
 
             services.ConfigureApplicationCookie(options =>
             {

@@ -268,9 +268,10 @@ a.disabled {
     font-weight: bold;
 }
 
-.login-error-message {
+.auth-error-message {
     margin-top: 1rem;
     color: red;
+    text-align: center;
 }
 
 .spinner {
@@ -316,6 +317,8 @@ a.disabled {
 .desktop-hide {
     display: none;
 }
+
+
 
 @media (max-width: 730px) {
     .btn {

@@ -21,7 +21,7 @@
         <div class="col s6 input-field">
             <label asp-for="UserVM.Password"></label>
             <input type="password" asp-for="UserVM.Password" />
-            @*<span asp-validation-for="UserVM.Password"></span>*@
+
         </div>
         <div class="col s3">
         </div>
@@ -30,3 +30,12 @@
         <button type="submit" class="waves-effect waves-light btn">Register</button>
     </div>
 </form>
+
+
+@foreach (var error in Model.Errors)
+{
+    <div class="auth-error-message">
+        <span >@error</span>
+    </div>
+}
+
