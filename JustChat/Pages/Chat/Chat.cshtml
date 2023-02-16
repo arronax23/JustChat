@@ -24,7 +24,7 @@
                     <input id="content-input" name="content" onchange="conentChange(event)" />
                 </div>
                 <div>
-                    <button id="sendButton" class="btn waves-effect waves-light" type="submit">
+                    <button id="sendButton" class="btn waves-effect waves-light" type="submit" disabled>
                         Submit<i class="material-icons right">send</i>
                     </button>
                     <button type="button" class="waves-effect pink darken-4 btn" id="emoji-btn">Pick emoji</button>
@@ -59,8 +59,6 @@
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script>
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-
-            document.getElementById("sendButton").disabled = true;
 
         connection.on("ReceiveMessage", function (message) {
             let chatContent = document.querySelector(".chat-content");
