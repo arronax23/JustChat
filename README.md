@@ -1,1 +1,28 @@
-![plot](./JustChat.png)
+# JustChat
+
+## Table of contents
+
+- [General info](#general-info)
+- [Technologies](#technologies)
+- [Screenshots](#screenshots)
+
+## General info
+
+Web chat application.
+
+## Technologies
+
+- ASP.NET Core 3.1 Razor Pages
+- SignalR
+- MS SQL
+- MaterializeCSS
+
+<!-- - [AngularJS]
+
+[angularjs]: http://angularjs.org -->
+
+## Screenshots
+
+![Main Room Screenshot](./JustChatSmall.png)
+
+<!-- <img src="./JustChat.png" width="100%" /> -->
