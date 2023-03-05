@@ -113,7 +113,7 @@ p, span, .room-users {
     font-family: 'Comfortaa', cursive;
     color: white;
     font-style: normal;
-    font-size: .8rem;
+    font-size: .9rem;
     font-weight: 400;
     width: 100%;
     height: 18px;
@@ -193,6 +193,10 @@ p, span, .room-users {
     margin: 0;
 }*/
 
+
+.message {
+    overflow: auto;
+}
 
 .message-content {
     font-weight: 700;
