@@ -25,6 +25,6 @@ Web chat application.
 
 ## Screenshots
 
-![Main Room Screenshot](./JustChatSmall.png)
+![Main Room Screenshot](./img-README/JustChatSmall.png)
 
 <!-- <img src="./JustChat.png" width="100%" /> -->
