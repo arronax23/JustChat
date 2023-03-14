@@ -16,7 +16,7 @@ Web chat application.
 - SignalR
 - MS SQL
 - Entity Framework Core
-- ASP NET Core Identity
+- ASP.NET Core Identity
 - MaterializeCSS
 
 <!-- - [AngularJS]

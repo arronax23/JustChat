@@ -203,11 +203,11 @@ p, span, .room-users {
 }
 
 .message:nth-child(even) {
-    background: #A8C69F;
+    background: #B8C0AF;
 }
 
 .message:nth-child(odd) {
-    background: #CCE2A3;
+    background: #C7D59F;
 }
 
 .room-users h6 {
