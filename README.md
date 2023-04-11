@@ -8,7 +8,7 @@
 
 ## General info
 
-Web chat application.
+Web chat application. Users can create Rooms and invite each other there. Anonymous chat option is pairing two users without showing their nicknames.
 
 ## Technologies
 
@@ -19,12 +19,6 @@ Web chat application.
 - ASP.NET Core Identity
 - MaterializeCSS
 
-<!-- - [AngularJS]
-
-[angularjs]: http://angularjs.org -->
-
 ## Screenshots
 
 ![Main Room Screenshot](./img-README/JustChatSmall.png)
-
-<!-- <img src="./JustChat.png" width="100%" /> -->
